@@ -6,6 +6,9 @@ on:
     tags:
       - '*'
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   build:
 
@@ -19,10 +22,28 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    -
+      name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build with Maven
-      run: mvn -B spring-boot:build-image --file pom.xml
+      run: mvn -B spring-boot:build-image --file pom.xml -Dimage.name=ghcr.io/semaforinformatik/workbook:${{ github.ref_name }}
     - uses: actions/upload-artifact@v4
       with:
         name: Package
         path: generic-workbook/target/workbook.jar
+
+    
+    - name: Docker Build-Tag-Push my-app
+      run: |
+        docker push ghcr.io/semaforinformatik/workbook:latest
+        docker push ghcr.io/semaforinformatik/workbook:${{ github.ref_name }}
 

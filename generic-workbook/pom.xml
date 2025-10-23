@@ -16,7 +16,7 @@
     <java.version>17</java.version>
     <gendas.profile>jpa</gendas.profile>
     <builddir>target</builddir>
-    <image.name>hub.semafor.ch/semafor/generic-workbook:${project.version}</image.name>
+    <image.name>ghcr.io/semaforinformatik/workbook:${project.version}</image.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <repositories>
@@ -156,7 +156,7 @@
         <configuration>
           <image>
             <!-- generate docker image with spring-boot:build-image -->
-            <name>hub.semafor.ch/semafor/generic-workbook</name>
+            <name>ghcr.io/semaforinformatik/workbook</name>
             <tags>
               <tag>${image.name}</tag>
             </tags>
