@@ -1,0 +1,590 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    
+    <changeSet author="del" id="1">
+      <createSequence sequenceName="ELEMENT_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="2">
+        <createSequence sequenceName="ELEM_REF_LIST_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="3">
+        <createSequence sequenceName="ELEM_REF_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="4">
+        <createSequence sequenceName="ELEM_TYPE_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="5">
+        <createSequence sequenceName="MOD_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="6">
+        <createSequence sequenceName="PROP_LIST_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="7">
+        <createSequence sequenceName="PROP_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="8">
+        <createSequence sequenceName="PROP_TYPE_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="9">
+        <createSequence sequenceName="PROP_VAL_SEQ"
+		      incrementBy="50" />
+    </changeSet>
+
+    <changeSet author="del" id="10">
+        <createTable tableName="ELEMENTREFS">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_A"/>
+            </column>
+            <column name="NEXT_REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REFNAME" type="VARCHAR(255)"/>
+            <column name="REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ELEMENT_TYPE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARENT_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="ELEMENTREFS" columnName="ID" defaultValueSequenceNext="ELEM_REF_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="11">
+        <createTable tableName="ELEMENTREFS_ELEMENTS">
+            <column name="REF_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ELEMENT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="12">
+        <createTable tableName="ELEMENTREFS_LISTS">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_C4"/>
+            </column>
+            <column name="NEXT_REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ELEMENTREFS_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="ELEMENTREFS_LISTS" columnName="ID" defaultValueSequenceNext="ELEM_REF_LIST_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="13">
+        <createTable tableName="ELEMENTS">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="ELEMENT_TYPE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OGROUP" type="VARCHAR(255)"/>
+            <column name="OWNER" type="VARCHAR(255)"/>
+        </createTable>
+        <addDefaultValue tableName="ELEMENTS" columnName="ID" defaultValueSequenceNext="ELEMENT_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="14">
+        <createTable tableName="ELEMENT_TYPES">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_CD"/>
+            </column>
+            <column name="BEAN_ID" type="VARCHAR(255)"/>
+            <column name="BEAN_VERSION_ID" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addDefaultValue tableName="ELEMENT_TYPES" columnName="ID" defaultValueSequenceNext="ELEM_TYPE_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="15">
+        <createTable tableName="ELEMENT_TYPES_PROPERTY_TYPES">
+            <column name="ELEMENT_TYPE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROPERTY_TYPES_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="16">
+        <createTable tableName="ELEMENT_TYPE_REFERENCES">
+            <column name="ELEMENT_TYPE_ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+            <column name="REFERENCES_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REFERENCES_KEY" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="17">
+        <createTable tableName="GROUPS">
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_7"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="18">
+        <createTable tableName="MODIFICATIONS">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_C8"/>
+            </column>
+            <column name="MODCOMMENT" type="VARCHAR(255)"/>
+            <column name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NEXT_REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)"/>
+            <column name="ELEMENT_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="MODIFICATIONS" columnName="ID" defaultValueSequenceNext="MOD_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="19">
+        <createTable tableName="OWNERS">
+            <column name="USERNAME" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_8"/>
+            </column>
+            <column name="ENABLED" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)"/>
+            <column name="LAST_NAME" type="VARCHAR(255)"/>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE_GROUP_NAME" type="VARCHAR(255)"/>
+            <column name="TOTP_SECRET" type="VARCHAR(255)"></column>
+            <column name="TOTP_ENABLED" type="BOOLEAN" defaultValue="0"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="20">
+        <createTable tableName="OWNERS_GROUPS">
+            <column name="OWNER_ID" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_B"/>
+            </column>
+            <column name="GROUP_ID" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_B"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="21">
+        <createTable tableName="OWNERS_ROLES">
+            <column name="OWNER_ID" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_71"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_71"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="22">
+        <createTable tableName="PROPERTIES">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_E"/>
+            </column>
+            <column name="NEXT_REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ELEMENT_ID" type="BIGINT"/>
+            <column name="PROPERTY_TYPE_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="PROPERTIES" columnName="ID" defaultValueSequenceNext="PROP_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="23">
+        <createTable tableName="PROPERTYVALUELIST_DIMENSIONS">
+            <column name="PROPERTYVALUELIST_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIMS" type="INT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="24">
+        <createTable tableName="PROPERTY_TYPES">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_5"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UNIT" type="VARCHAR(255)"/>
+        </createTable>
+        <addDefaultValue tableName="PROPERTY_TYPES" columnName="ID" defaultValueSequenceNext="PROP_TYPE_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="25">
+        <createTable tableName="PROPERTY_VALUES">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_CC"/>
+            </column>
+            <column name="BOOL" type="SMALLINT"/>
+            <column name="DATE_VALUE" type="TIMESTAMP"/>
+            <column name="DECIMAL_VALUE" type="DECIMAL(19, 2)"/>
+            <column name="DVALUE" type="DOUBLE(17)"/>
+            <column name="IVALUE" type="INT"/>
+            <column name="LVALUE" type="BIGINT"/>
+            <column name="SVALUE" type="VARCHAR(255)"/>
+            <column name="TEXT" type="${clobType}"/>
+            <column name="VALUELIST_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="PROPERTY_VALUES" columnName="ID" defaultValueSequenceNext="PROP_VAL_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="26">
+        <createTable tableName="PROPERTY_VALUE_LIST">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_F"/>
+            </column>
+            <column name="NEXT_REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVISION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROPERTY_ID" type="BIGINT"/>
+        </createTable>
+        <addDefaultValue tableName="PROPERTY_VALUE_LIST" columnName="ID" defaultValueSequenceNext="PROP_LIST_SEQ"/>
+    </changeSet>
+
+    <changeSet author="del" id="27">
+        <createTable tableName="ROLES">
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_4"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="del" id="28">
+        <addUniqueConstraint columnNames="NAME" constraintName="UK_B4YBA7L6INLU0CNY49SIG0QPK" tableName="PROPERTY_TYPES"/>
+    </changeSet>
+
+    <changeSet author="del" id="29">
+        <addUniqueConstraint columnNames="NAME" constraintName="UK_KEBQ02T4VFFMJGG98RKTP472J" tableName="ELEMENT_TYPES"/>
+    </changeSet>
+
+    <changeSet author="del" id="30" dbms="mysql">
+        <createIndex indexName="FK1UTI2X1S8EGPU794USRXOFTIG_INDEX_2" tableName="ELEMENTS">
+            <column name="ELEMENT_TYPE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="31" dbms="mysql">
+        <createIndex indexName="FK30V8DIGM1D2KOGJPSCF5IX6AA_INDEX_2" tableName="ELEMENTS">
+            <column name="OWNER"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="32" dbms="mysql">
+        <createIndex indexName="FK3L6NOMQAV5Y0YMWDDANHA4M67_INDEX_F" tableName="PROPERTY_VALUE_LIST">
+            <column name="PROPERTY_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="33" dbms="mysql">
+        <createIndex indexName="FK4E05X4IU63IUVS3TOYPB25UF4_INDEX_2" tableName="ELEMENTS">
+            <column name="OGROUP"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="34" dbms="mysql">
+        <createIndex indexName="FK5CQI75XIEFC2UM4YPS65G7U8U_INDEX_C" tableName="MODIFICATIONS">
+            <column name="USERNAME"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="35" dbms="mysql">
+        <createIndex indexName="FK6QNWA4I50AXLMTKVGP47EVOFX_INDEX_7" tableName="ELEMENT_TYPES_PROPERTY_TYPES">
+            <column name="PROPERTY_TYPES_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="36" dbms="mysql">
+        <createIndex indexName="FK81EURI29M9PU4QQDU75TBGKTO_INDEX_B" tableName="OWNERS_GROUPS">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="37" dbms="mysql">
+        <createIndex indexName="FK9KOGPPID3DQET1TPTNOHAT21D_INDEX_E" tableName="PROPERTIES">
+            <column name="PROPERTY_TYPE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="38" dbms="mysql">
+        <createIndex indexName="FKEBIMQJLPD8RRBWA9CK69C8XGK_INDEX_C" tableName="ELEMENT_TYPE_REFERENCES">
+            <column name="ELEMENT_TYPE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="39" dbms="mysql">
+        <createIndex indexName="FKH1Y6FE8E0GKX3HR8CRIMRDH1R_INDEX_C" tableName="ELEMENTREFS_LISTS">
+            <column name="ELEMENTREFS_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="40" dbms="mysql">
+        <createIndex indexName="FKHATVMNR3OJM07GL6G9ESVJUG4_INDEX_7" tableName="ELEMENT_TYPES_PROPERTY_TYPES">
+            <column name="ELEMENT_TYPE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="41" dbms="mysql">
+        <createIndex indexName="FKHG5J6QAGMX82FD647W79D5O6S_INDEX_7" tableName="OWNERS_ROLES">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="42" dbms="mysql,postgresql,oracle">
+        <createIndex indexName="FKHW8XDI4QNDOLN5WO6C5FIY0GQ_INDEX_C" tableName="PROPERTY_VALUES">
+            <column name="VALUELIST_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="43" dbms="mysql">
+        <createIndex indexName="FKHYL386PXVV4A9TC2IKXRUH8T9_INDEX_C" tableName="ELEMENT_TYPE_REFERENCES">
+            <column name="REFERENCES_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="44" dbms="mysql">
+        <createIndex indexName="FKKWPUC3UIPE1KRE2O8TBXP3E8X_INDEX_A" tableName="ELEMENTREFS">
+            <column name="PARENT_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="45" dbms="mysql">
+        <createIndex indexName="FKMN3G8YRAVJBWVH5FKM5QWD0PL_INDEX_9" tableName="ELEMENTREFS_ELEMENTS">
+            <column name="REF_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="46" dbms="mysql">
+        <createIndex indexName="FKNJ81N9WNHLHV0NV65CGPFU2I3_INDEX_8" tableName="OWNERS">
+            <column name="ACTIVE_GROUP_NAME"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="47" dbms="mysql">
+        <createIndex indexName="FKNYOD2W835V55OFGB6ESHKW8LR_INDEX_1" tableName="PROPERTYVALUELIST_DIMENSIONS">
+            <column name="PROPERTYVALUELIST_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="48" dbms="mysql">
+        <createIndex indexName="FKNYR57SWFA7V4XI6NAJ7UEQCLJ_INDEX_7" tableName="OWNERS_ROLES">
+            <column name="OWNER_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="49" dbms="mysql">
+        <createIndex indexName="FKO4AL2K1PBNFOYOVU05LR8B9U0_INDEX_A" tableName="ELEMENTREFS">
+            <column name="ELEMENT_TYPE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="50" dbms="mysql">
+        <createIndex indexName="FKQ84KP13R1R40XW3CT093XC3RN_INDEX_B" tableName="OWNERS_GROUPS">
+            <column name="OWNER_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="51" dbms="mysql">
+        <createIndex indexName="FKRUVAC3J50ULWNTJUJKDDW4K95_INDEX_9" tableName="ELEMENTREFS_ELEMENTS">
+            <column name="ELEMENT_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="52" dbms="mysql">
+        <createIndex indexName="FKRVSGJYSWBB3122L3DEJ12BPKN_INDEX_C" tableName="MODIFICATIONS">
+            <column name="ELEMENT_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="53" dbms="mysql">
+        <createIndex indexName="FKTLC7SPDK6DIG9ENJT2SB1KX2D_INDEX_E" tableName="PROPERTIES">
+            <column name="ELEMENT_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="54" dbms="mysql,postgresql,oracle">
+        <createIndex indexName="NEXT_REV_INDX" tableName="PROPERTY_VALUE_LIST">
+            <column name="NEXT_REVISION"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="55" dbms="mysql,postgresql,oracle">
+        <createIndex indexName="SVALUE_INDX" tableName="PROPERTY_VALUES">
+            <column name="SVALUE"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="del" id="56">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_TYPE_ID" baseTableName="ELEMENTS" constraintName="FK1UTI2X1S8EGPU794USRXOFTIG" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENT_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="57">
+        <addForeignKeyConstraint baseColumnNames="OWNER" baseTableName="ELEMENTS" constraintName="FK30V8DIGM1D2KOGJPSCF5IX6AA" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USERNAME" referencedTableName="OWNERS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="58">
+        <addForeignKeyConstraint baseColumnNames="PROPERTY_ID" baseTableName="PROPERTY_VALUE_LIST" constraintName="FK3L6NOMQAV5Y0YMWDDANHA4M67" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTIES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="59">
+        <addForeignKeyConstraint baseColumnNames="OGROUP" baseTableName="ELEMENTS" constraintName="FK4E05X4IU63IUVS3TOYPB25UF4" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="GROUPS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="60">
+        <addForeignKeyConstraint baseColumnNames="USERNAME" baseTableName="MODIFICATIONS" constraintName="FK5CQI75XIEFC2UM4YPS65G7U8U" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USERNAME" referencedTableName="OWNERS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="61">
+        <addForeignKeyConstraint baseColumnNames="PROPERTY_TYPES_ID" baseTableName="ELEMENT_TYPES_PROPERTY_TYPES" constraintName="FK6QNWA4I50AXLMTKVGP47EVOFX" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTY_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="62">
+        <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="OWNERS_GROUPS" constraintName="FK81EURI29M9PU4QQDU75TBGKTO" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="GROUPS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="63">
+        <addForeignKeyConstraint baseColumnNames="PROPERTY_TYPE_ID" baseTableName="PROPERTIES" constraintName="FK9KOGPPID3DQET1TPTNOHAT21D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTY_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="64">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_TYPE_ID" baseTableName="ELEMENT_TYPE_REFERENCES" constraintName="FKEBIMQJLPD8RRBWA9CK69C8XGK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENT_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="65">
+        <addForeignKeyConstraint baseColumnNames="ELEMENTREFS_ID" baseTableName="ELEMENTREFS_LISTS" constraintName="FKH1Y6FE8E0GKX3HR8CRIMRDH1R" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTREFS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="66">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_TYPE_ID" baseTableName="ELEMENT_TYPES_PROPERTY_TYPES" constraintName="FKHATVMNR3OJM07GL6G9ESVJUG4" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENT_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="67">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="OWNERS_ROLES" constraintName="FKHG5J6QAGMX82FD647W79D5O6S" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="ROLES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="68">
+        <addForeignKeyConstraint baseColumnNames="VALUELIST_ID" baseTableName="PROPERTY_VALUES" constraintName="FKHW8XDI4QNDOLN5WO6C5FIY0GQ" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTY_VALUE_LIST" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="69">
+        <addForeignKeyConstraint baseColumnNames="REFERENCES_ID" baseTableName="ELEMENT_TYPE_REFERENCES" constraintName="FKHYL386PXVV4A9TC2IKXRUH8T9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENT_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="70">
+        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="ELEMENTREFS" constraintName="FKKWPUC3UIPE1KRE2O8TBXP3E8X" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="71">
+        <addForeignKeyConstraint baseColumnNames="REF_ID" baseTableName="ELEMENTREFS_ELEMENTS" constraintName="FKMN3G8YRAVJBWVH5FKM5QWD0PL" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTREFS_LISTS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="72">
+        <addForeignKeyConstraint baseColumnNames="ACTIVE_GROUP_NAME" baseTableName="OWNERS" constraintName="FKNJ81N9WNHLHV0NV65CGPFU2I3" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="GROUPS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="73">
+        <addForeignKeyConstraint baseColumnNames="PROPERTYVALUELIST_ID" baseTableName="PROPERTYVALUELIST_DIMENSIONS" constraintName="FKNYOD2W835V55OFGB6ESHKW8LR" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTY_VALUE_LIST" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="74">
+        <addForeignKeyConstraint baseColumnNames="OWNER_ID" baseTableName="OWNERS_ROLES" constraintName="FKNYR57SWFA7V4XI6NAJ7UEQCLJ" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USERNAME" referencedTableName="OWNERS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="75">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_TYPE_ID" baseTableName="ELEMENTREFS" constraintName="FKO4AL2K1PBNFOYOVU05LR8B9U0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENT_TYPES" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="76">
+        <addForeignKeyConstraint baseColumnNames="OWNER_ID" baseTableName="OWNERS_GROUPS" constraintName="FKQ84KP13R1R40XW3CT093XC3RN" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USERNAME" referencedTableName="OWNERS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="77">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_ID" baseTableName="ELEMENTREFS_ELEMENTS" constraintName="FKRUVAC3J50ULWNTJUJKDDW4K95" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="78">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_ID" baseTableName="MODIFICATIONS" constraintName="FKRVSGJYSWBB3122L3DEJ12BPKN" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="79">
+        <addForeignKeyConstraint baseColumnNames="ELEMENT_ID" baseTableName="PROPERTIES" constraintName="FKTLC7SPDK6DIG9ENJT2SB1KX2D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ELEMENTS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="del" id="80">
+        <loadData
+                tableName="owners"
+                separator=";"
+                relativeToChangelogFile="true"
+                file="data/owners.csv">
+            <column name="enabled" type="boolean"/>
+        </loadData>
+
+        <loadData
+                tableName="roles"
+                separator=";"
+                relativeToChangelogFile="true"
+                file="data/roles.csv"/>
+
+        <loadData
+                tableName="owners_roles"
+                separator=";"
+                relativeToChangelogFile="true"
+                file="data/owners_roles.csv"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,14 @@
+{{- define "workbook.pvc.tpl" -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "workbook.fullname" . }}-h2volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: rook-cephfs
+{{- end -}}

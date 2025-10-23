@@ -1,0 +1,14 @@
+{{- define "workbook.configmap.tpl" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "workbook.fullname" . }}-liquibase-migrations
+data:
+{{/*
+map all files under the liquibase/ to a shasummed key pointing at the contents
+https://stackoverflow.com/a/76410634
+*/}}
+{{ range $path, $_ := .Files.Glob "liquibase/**" }}
+{{ sha256sum $path | nindent 2 }}: {{ $.Files.Get $path | quote }}
+{{ end }}
+{{- end -}}

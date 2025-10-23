@@ -1,0 +1,15 @@
+{{- define "workbook.main.tpl" -}}
+{{ include "workbook.deployment.tpl" . }}
+---
+{{ include "workbook.configmap.tpl" . }}
+---
+{{ include "workbook.service.tpl" . }}
+---
+{{ include "workbook.secret.tpl" . }}
+---
+{{ include "workbook.keys.tpl" . }}
+---
+{{- if .Values.h2volume }}
+{{ include "workbook.pvc.tpl" . }}
+{{- end }}
+{{- end -}}

@@ -1,0 +1,18 @@
+{{- define "workbook.service.tpl" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "workbook.fullname" . }}
+  labels:
+    {{- include "workbook.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ include "workbook.fullname" . }}
+  ports:
+    # Default port used by the image
+    - name: http
+      port: 8080
+
+  # Service type (one of ClusterIP, NodePort, LoadBalancer, default is ClusterIP)
+  type: NodePort
+{{- end -}}

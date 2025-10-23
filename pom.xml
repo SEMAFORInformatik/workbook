@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ch.semafor</groupId>
+  <artifactId>workbook</artifactId>
+  <version>3.4-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>db-service</module>
+    <module>generic-workbook</module>
+  </modules>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.4</version>
+  </parent>
+  <scm>
+    <url>scm:git:https://github.com/SEMAFORInformatik/Workbook</url>
+    <developerConnection>
+      scm:git:https://github.com/SEMAFORInformatik/Workbook
+    </developerConnection>
+    <connection>scm:git:https://github.com/SEMAFORInformatik/Workbook</connection>
+  </scm>
+  <properties>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>releases</id>
+      <name>Semafor Releases Repositories</name>
+      <url>https://repo.semafor.ch/releases/</url>
+    </repository>
+    <repository>
+      <id>snapshots</id>
+      <name>Semafor Snapshots Repositories</name>
+      <url>https://repo.semafor.ch/snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+</project>

@@ -1,0 +1,23 @@
+[{
+"id":1
+,"version":0
+,"name":"test-motor1"
+,"rev":0
+,"created":"2001-02-03T23:00:12"
+,"owner":"john"
+,"group":"group1"
+,"desc":"description 1"
+,"approval":"inPreparation"
+,"type":"PmMotor"
+},
+{
+"id":2
+,"version":0
+,"name":"test-motor2"
+,"created":"2011-01-02T23:00:12"
+,"owner":"me"
+,"group":"group1"
+,"approval":"approved"
+,"type":"PmMotor"
+}
+]

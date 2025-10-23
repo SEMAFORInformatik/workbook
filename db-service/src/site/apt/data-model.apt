@@ -1,0 +1,64 @@
+ ------
+ Gendas
+ ------
+ Ronald Tanner
+ ------
+ January 2011
+ ------
+
+Data Model
+
+[images/db-model.png] Gendas Data Model
+
+   The data model of Gendas includes the following key entities:
+
+  * <<Element>>: the item being described with a given element type (the
+       canonical classname). Elements have properties and references to other elements.
+
+  * <<Property>>: an attribute of an item with a given
+       property type (the property name) and a list of values
+
+  * <<Element Ref>>: a reference to another element
+
+  * <<Modification>>: a modification of one or more properties or references
+
+* Property Values
+
+  Property Values represent the primitive values and may have the following Java types
+
+  * String (enum)
+
+  * Double (double) 
+
+  * Integer (int)
+
+  *	Long (long)
+
+  * Date (GregorianCalender, XMLGregorianCalender)
+
+  * BigDecimal
+
+  * Boolean (boolean)
+
+  []
+
+  Values of the types above listed in parenthesis are converted to 
+  their parent type and vice-versa. The parent type is the first type of each list item.
+  The conversion from Date to GregorianCalender and XMLGregorianCalender and reverse
+  is implemented as follows:
+
+---
+Date d = ...
+
+GregorianCalendar gcal = new GregorianCalendar();
+gcal.setTime( d );
+
+XMLGregorianCalendar xmlcal = 
+  DatatypeFactory.newInstance().newXMLGregorianCalendar( gcal );
+
+gcal = xmlcal.toGregorianCalendar();
+
+d = gcal.getTime()
+---
+
+

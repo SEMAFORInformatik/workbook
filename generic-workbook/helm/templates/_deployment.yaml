@@ -1,0 +1,189 @@
+{{- define "workbook.deployment.tpl" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "workbook.fullname" . }}
+  labels:
+    {{- include "workbook.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "workbook.selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "workbook.selectorLabels" . | nindent 8 }}
+        app: {{ include "workbook.fullname" . }}
+      {{- if .Values.metrics.enabled }}
+      annotations:
+        prometheus.io/path: /workbook/services/management/prometheus
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+        k8s.grafana.com/scrape: "true"
+        k8s.grafana.com/metrics.path: /workbook/services/management/prometheus
+        k8s.grafana.com/metrics.portNumber: "8080"
+      {{- end }}
+    spec:
+      {{- if .Values.h2volume }}
+      securityContext:
+        fsGroup: 1000
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            {{- range $key, $value := .Values.affinity }}
+            - matchExpressions:
+              - key: {{ $key }}
+                operator: In
+                values:
+                - "{{ $value }}"
+            {{- end }}
+      {{- end }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: 8080
+              name: workbook-port
+          resources:
+            limits:
+              ephemeral-storage: {{ ((.Values.resources).limits).ephemeralstorage | default "3Gi" }}
+            requests:
+              ephemeral-storage: {{ ((.Values.resources).requests).ephemeralstorage | default "2Gi" }}
+          env:
+            - name: server.servlet.context-path
+              value: "{{ .Values.basePath | default "/workbook"}}"
+            {{- if .Values.useCustomInit}}
+            - name: spring.liquibase.change-log
+              value: file:liquibase/db.changelog-master.xml
+            {{- end }}
+            - name: management.endpoints.web.base-path
+              value: /services/management
+            - name: spring.profiles.active
+              {{- if .Values.oidc.enabled }}
+              value: "jpa,oauth2,liquibase"
+              {{- else }}
+              value: "jpa,auth-jwt,liquibase"
+              {{- end }}
+            {{- if .Values.metrics.enabled }}
+            - name: management.endpoint.prometheus.enabled
+              value: "true"
+            - name: management.endpoints.web.exposure.include
+              value: env,health,info,loggers,liquibase,prometheus
+            {{- end }}
+            {{- if .Values.otel.enabled }}
+            - name: management.opentelemetry.resource-attributes.k8s.deployment.name
+              value: workbook
+            - name: management.tracing.enabled
+              value: "true"
+            - name: management.tracing.sampling.probability
+              value: "1.0"
+            - name: management.otlp.tracing.endpoint
+              value: {{ .Values.otel.endpoint }}
+            {{- end }}
+            {{- if .Values.component }}
+            - name: component.defaultApprovalState
+              value: "{{ .Values.component.defaultApprovalState | default "experimental" }}"
+            - name: component.useNameRevisionAsIdentifier
+              value: "{{ .Values.component.useNameRevisionAsIdentifier | default false }}"
+            - name: component.useOwnerNameRevisionAsIdentifier
+              value: "{{ .Values.component.useOwnerNameRevisionAsIdentifier | default false }}"
+            {{- end }}
+            - name: spring.datasource.url
+              value: "{{ .Values.datasource.url }}"
+            - name: spring.datasource.username
+              value: "{{ .Values.datasource.username }}"
+            - name: spring.datasource.password
+              value: "{{ .Values.datasource.password }}"
+            {{- if .Values.oidc.enabled }}
+            - name: spring.security.oauth2.resourceserver.jwt.issuer-uri
+              value: "{{ .Values.oidc.issuer }}"
+            - name: spring.security.oauth2.resourceserver.jwt.jwk-set-uri
+              value: "{{ .Values.oidc.certificates }}"
+            - name: app.dashboard.authorizationEndpoint
+              value: "{{ .Values.oidc.authorizationEndpoint }}"
+            - name: app.dashboard.tokenEndpoint
+              value: "{{ .Values.oidc.tokenEndpoint }}"
+            - name: app.dashboard.clientId
+              value: "{{ .Values.oidc.client }}"
+            - name: app.dashboard.dashboardUrl
+              value: "{{ .Values.oidc.dashboardUrl }}"
+            {{- /*
+            We only want to set the value to use provided keys if we actually have them
+            */}}
+            {{- else if .Files.Get "keys/app.pub" }}
+            - name: app.private.key
+              value: classpath:jwt/app.key
+            - name: app.public.key
+              value: classpath:jwt/app.pub
+            {{- end }}
+
+            {{- if .Values.validStateTransitions }}
+            {{- range $state, $transitions := .Values.validStateTransitions }}
+            - name: validStateTransitions.{{ $state }}
+              value: "{{ $transitions }}"
+            {{- end }}
+            {{- end }}
+
+            {{- if .Values.projectStatusTransitions}}
+            {{- range $state, $transitions := .Values.projectStatusTransitions }}
+            - name: projectStatusTransitions.{{ $state }}
+              value: "{{ $transitions }}"
+            {{- end }}
+            {{- end }}
+
+            {{- if .Values.customEnv }}
+            {{- range $name, $value := .Values.customEnv }}
+            - name: {{ $name }}
+              value: "{{ $value }}"
+            {{- end }}
+            {{- end }}
+
+          startupProbe:
+            httpGet:
+              path: /workbook/services/management/health
+              port: workbook-port
+            initialDelaySeconds: 10
+            failureThreshold: 10
+            periodSeconds: 5
+
+          volumeMounts:
+            {{/*
+            https://stackoverflow.com/a/76410634
+            */}}
+            {{ range $path, $_ := .Files.Glob "liquibase/**" }}
+            - name: liquibase-files-multipart
+              mountPath: {{ printf "/workspace/liquibase/%s" (trimPrefix "liquibase/" $path) | quote }}
+              subPath: {{ sha256sum $path | quote }}
+            {{ end }}
+            {{- if not .Values.oidc.enabled }}
+            - name: jwt-keys
+              mountPath: /workspace/BOOT-INF/classes/jwt
+            {{- end }}
+            {{- if .Values.h2volume }}
+            - name: h2volume
+              mountPath: /tmp/db
+            {{- end }}
+
+      imagePullSecrets:
+        - name: {{ include "workbook.fullname" . }}-registry
+
+      volumes:
+        - name: liquibase-files-multipart
+          configMap:
+            name: {{ include "workbook.fullname" . }}-liquibase-migrations
+          {{- if not .Values.oidc.enabled }}
+        - name: jwt-keys
+          secret:
+            secretName: {{ include "workbook.fullname" . }}-jwt-keys
+          {{- end }}
+          {{- if .Values.h2volume }}
+        - name: h2volume
+          persistentVolumeClaim:
+            claimName: {{ include "workbook.fullname" . }}-h2volume
+          {{- end }}
+{{- end -}}

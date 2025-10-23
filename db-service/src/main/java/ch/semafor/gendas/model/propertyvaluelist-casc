@@ -1,0 +1,3 @@
+	@OneToMany(mappedBy = "valuelist", cascade = CascadeType.ALL )
+	@OrderBy("id asc")
+	private List<PropertyValue> values = new ArrayList<PropertyValue>(); 

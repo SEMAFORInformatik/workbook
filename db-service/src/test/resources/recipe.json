@@ -1,0 +1,35 @@
+[
+  {
+    "name": "name",
+    "type": "STRING"
+  },
+  {
+    "name": "rev",
+    "type": "INTEGER"
+  },
+  {
+    "name": "desc",
+    "type": "STRING"
+  },
+  {
+    "name": "approval",
+    "type": "STRING"
+  },
+  {
+    "name": "created",
+    "type": "DATE"
+  },
+  {
+    "name": "group",
+    "type": "STRING"
+  },
+  {
+    "name": "applicab",
+    "type": "STRING"
+  },
+  {
+    "name": "productName",
+    "type": "STRING",
+    "unit": "1"
+  }
+]

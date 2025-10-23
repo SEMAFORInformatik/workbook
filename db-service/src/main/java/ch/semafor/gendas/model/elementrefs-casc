@@ -1,0 +1,2 @@
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+  private List<ElementRefList> reflist = new ArrayList<ElementRefList>();

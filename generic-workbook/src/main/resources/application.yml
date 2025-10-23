@@ -1,0 +1,138 @@
+server:
+  servlet:
+    context-path: /@project.artifactId@
+spring:
+  application.name: workbook
+  profiles:
+    active: jpa,auth-jwt
+  jpa:
+    show.sql: false
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      #naming:
+        #physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        #implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase/db.changelog-master.xml
+  devtools:
+    restart:
+      enabled: false
+      livereload:
+        enabled: false
+logging:
+  level:
+    ch:
+      semafor:
+        intens:
+          ws: INFO
+security:
+  basic:
+    enabled: false
+management:
+  endpoints:
+    web:
+      base-path: /services/management
+      exposure:
+        include: env,health,info,loggers,liquibase,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+app:
+  basedir: @project.basedir@
+  name: @project.name@
+  version: @project.version@
+  migration:
+    masterfile: db.changelog-master.xml
+    git:
+      url: https://gitlab.semafor.ch/dbchange/insertname-migrations.git
+      username: dbchange
+      token: replacewithtoken
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count,Access-Control-Allow-Origin"
+
+AccessFilter:
+  active: true
+
+component:
+# defaultApprovalStateRev0: experimental
+  defaultApprovalState: experimental
+  approval:
+    group:
+      experimental: false
+      inPreparation: true
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+    others:
+      experimental: false
+      inPreparation: false
+      shared: false
+      approved: false
+      tendered: false
+      tested: false
+      obsolete: false
+variant:
+  approval:
+    group:
+      experimental: false
+      inPreparation: true
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+    others:
+      experimental: false
+      inPreparation: false
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+project:
+  defaultStatus: local
+  status:
+    group:
+      global: true
+      local: true
+      delivered: true
+      obsolete: true
+    others:
+      global: true
+      local: false
+      delivered: false
+      obsolete: false
+
+validStateTransitions:
+  Experimental: Experimental,InPreparation,Shared,Approved,Obsolete
+  InPreparation: InPreparation,Shared,Approved,Obsolete
+  Shared: Shared,Approved,Obsolete
+  Approved: Approved,Tested,Tendered,Obsolete
+  Obsolete: Obsolete
+  Tested: Tested,Tendered,Obsolete
+  Tendered: Tendered,Obsolete
+
+projectStatusTransitions:
+  Global: Local,Global,Delivered,Obsolete
+  Local: Local,Division,Global,Delivered,Obsolete
+  Obsolete: Obsolete
+  Division: Division,Local,Global,Delivered,Obsolete
+  Delivered: Delivered

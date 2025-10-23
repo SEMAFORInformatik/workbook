@@ -1,0 +1,115 @@
+ ------
+ Gendas
+ ------
+ Ronald Tanner
+ ------
+ January 2011
+ ------
+
+Usage Scenarios
+
+* Initialize Spring Context:
+
+---
+  ApplicationContext context = 
+     new ClassPathXmlApplicationContext(new String[]{ 
+	                               "/gendas-context.xml"
+     });
+
+  PersistenceManager persistenceService =
+     (PersistenceManager) context.getBean("persistenceService");
+---
+
+  NOTE: This is prerequisite for using Gendas.
+
+* Create a new element type of a domain class
+
+---
+  String keyId="id"; // name of pk property
+  String versionId="version"; // name of version property
+
+  persistenceService.createElementType(Customer.class, keyId, versionId);
+---
+
+  NOTE: This must be done once to create the element type definition.
+
+ This example also demonstrates how to define the mapping of the 
+ version and id properties between the gendas element and the
+ domain object. The id property is used to identify equal objects to 
+ distinguish insert or update for persisting operations 
+ while the version property is used for optimistic locking to prevent 
+ update conflicts.
+
+ In the case shown above the Customer class must provide 
+ the following setters and getters:
+
+---
+  class Customer {
+    ..
+    public Long getId(){ return id; }
+    public void setId(Long id){ this.id=id; }
+    public Long getVersion(){ return version; }
+    public void setVersion(Long version){ this.version=version; }
+    ..
+  };
+---
+
+* Save a new domain object:
+
+---
+ Customer customer = new Customer(); 
+ customer.setCustomerNumber("C123");
+ .. // set other properties
+
+ persistenceService.save(customer);
+  ..
+---
+
+* Find domain objects by property:
+
+---
+ List<Customer> customers =
+     persistenceService.getAllObjectsByPropertyValue(
+           Customer.class, "customerNumber", "C123" );
+  ..
+---
+
+ NOTE: Due to the parameters keyId and versionId of the previously
+  created element type the id and version properties of the
+  returned objects will all have 
+  the same values like the ones of the element tree.
+
+* Find a domain object by id, modify one of its properties and save it:
+
+---
+ Customer customer =
+     (Customer)persistenceService.load( 123L );
+
+  customer.setCustomerNumber("C101");
+  persistenceService.save(customer);
+---
+
+ NOTE: this creates a new revision of the already persisted
+  customer object.
+
+* Show all revisions with their timestamps:
+
+---
+List<Modification> mlist = persistenceService.getModifications(
+                customer.getId());
+for( Modification m: mlist){
+	System.out.println( m.getRevision() + " " + m.getTimestamp());
+}
+System.out.println("Last Revision: "
+        +persistenceService.getLastRevision(customer.getId()));
+---
+
+* Get domain object of previous modification:
+
+---
+  Long id=123L;
+  Long rev = (Customer) persistenceService.getLastRevision(id)-1;
+ (Customer) persistenceService.load(id, rev);
+---
+
+

@@ -1,0 +1,106 @@
+server.servlet.context-path: /workbook-test
+app:
+  name: TEST
+  version: 0.0.0
+  migration:
+    masterfile: db.changelog-master.xml
+    git:
+      url:
+      username:
+      token:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+spring:
+  # main:
+  #   allow-bean-definition-overriding: true
+  profiles.active: auth-jwt,jpa
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:test
+  liquibase:
+    change-log: 'classpath:/liquibase/db.changelog-test-master.xml'
+  output:
+    ansi:
+      enabled: always # Enable colored output in tests
+  # security:
+  #   oauth2:
+  #     resourceserver:
+  #       jwt:
+  #         issuer-uri: http://localhost:8080/realms/SEMAFOR
+  #         jwk-set-uri: http://localhost:8080/realms/SEMAFOR/protocol/openid-connect/certs
+
+#logging:
+#  level:
+#    org:
+#      springframework: DEBUG
+
+AccessFilter:
+  active: true
+
+# visible components
+component:
+  approval:
+    group:
+      inPreparation: true
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+    others:
+      inPreparation: false
+      shared: false
+      approved: false
+      tendered: true
+      tested: true
+      obsolete: true
+
+# visible variants
+variant:
+  approval:
+    group:
+      inPreparation: true
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+    others:
+      inPreparation: false
+      shared: true
+      approved: true
+      tendered: true
+      tested: true
+      obsolete: true
+
+# visible projects
+project:
+  status:
+    group:
+      global: true
+      local: true
+      delivered: true
+      obsolete: true
+    others:
+      global: true
+      local: false
+      delivered: false
+      obsolete: false
+
+validStateTransitions:
+  Experimental: Experimental,InPreparation,Shared,Approved,Obsolete
+  InPreparation: InPreparation,Shared,Approved,Obsolete
+  Shared: Shared,Approved,Obsolete
+  Approved: Approved,Tested,Tendered,Obsolete
+  Obsolete: Obsolete
+  Tested: Tested,Tendered,Obsolete
+  Tendered: Tendered,Obsolete
+
+projectStatusTransitions:
+  Global: Local,Global,Delivered,Obsolete
+  Local: Local,Division,Global,Delivered,Obsolete
+  Obsolete: Obsolete
+  Division: Division,Local,Global,Delivered,Obsolete
+  Delivered: Delivered

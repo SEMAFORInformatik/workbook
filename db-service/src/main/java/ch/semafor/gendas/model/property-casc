@@ -1,0 +1,2 @@
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	private List<PropertyValueList> valuelist = new ArrayList<PropertyValueList>(); 

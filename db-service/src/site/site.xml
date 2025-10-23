@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Gendas">
+  
+  <bannerLeft>
+    <name>Gendas</name>
+    <href>http://projects.semafor.ch/Gendas</href>
+  </bannerLeft>
+  
+  <bannerRight>
+    <name>SEMAFOR</name>
+    <src>images/semafor.png</src>    
+  </bannerRight>
+  
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-default-skin</artifactId>
+  </skin>
+
+  <publishDate format="yyyy-MM-dd" />
+  
+  <body>
+    <links>
+      <item name="Semafor" href="http://www.semafor.ch/"/>
+      <item name="Maven" href="http://maven.apache.org/"/>
+<!--
+      <item name="Hudson" href="http://maven.apache.org/continuum"/>
+-->
+    </links>
+
+<!--
+    <head>
+      <meta name="faq" content="proficio"/>
+    </head> -->
+
+    <menu name="About Gendas" inherit="top">
+      <item name="How it works" href="/how-it-works.html"/>
+      <item name="Data Model" href="/data-model.html"/>
+      <item name="Configuration" href="/configuration.html"/>
+      <item name="Usage" href="/usage.html"/>
+    </menu>
+
+    <menu ref="modules" />
+
+    <menu ref="reports" />
+  
+  </body>
+</project>

@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "name": "Person",
+    "beanId": "id",
+    "beanVersionId": "version",
+    "propertyTypes": [
+      {
+        "id": 1,
+        "name": "name",
+        "type": "STRING",
+        "unit": null
+      },
+      {
+        "id": 2,
+        "name": "height",
+        "type": "INTEGER",
+        "unit": "cm"
+      },
+      {
+        "id": 3,
+        "name": "weight",
+        "type": "REAL",
+        "unit": "kg"
+      }
+    ],
+    "references": {
+      "car": {
+        "id": 2,
+        "name": "Car",
+        "beanId": "id",
+        "beanVersionId": "version",
+        "propertyTypes": [
+          {
+            "id": 4,
+            "name": "model",
+            "type": "STRING",
+            "unit": null
+          },
+          {
+            "id": 5,
+            "name": "speed",
+            "type": "INTEGER",
+            "unit": "km/h"
+          },
+          {
+            "id": 3,
+            "name": "weight",
+            "type": "REAL",
+            "unit": "kg"
+          }
+        ],
+        "references": []
+      }
+    }
+  },
+  {
+    "id": 2,
+    "name": "Car",
+    "beanId": "id",
+    "beanVersionId": "version",
+    "propertyTypes": [
+      {
+        "id": 4,
+        "name": "model",
+        "type": "STRING",
+        "unit": null
+      },
+      {
+        "id": 5,
+        "name": "speed",
+        "type": "INTEGER",
+        "unit": "km/h"
+      },
+      {
+        "id": 3,
+        "name": "weight",
+        "type": "REAL",
+        "unit": "kg"
+      }
+    ],
+    "references": []
+  }
+]

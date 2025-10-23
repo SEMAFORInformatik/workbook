@@ -1,0 +1,12 @@
+package ch.semafor.intens.ws
+
+import ch.semafor.intens.ws.model.Component
+import ch.semafor.intens.ws.model.User
+
+rule "Attempt to modify component by different user"
+when
+ user:User()
+ comp:Component(owner!=user || (NextOwner != null && owner != NextOwner) )
+then
+  comp.setValid(false); 
+end

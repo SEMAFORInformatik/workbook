@@ -1,0 +1,17 @@
+	@OneToMany(mappedBy = "element", cascade = CascadeType.ALL)
+	@org.hibernate.annotations.OrderBy(clause = "id asc")
+	private List<TableModification> modifications = new ArrayList<TableModification>(); 
+
+	@ManyToOne
+	@JoinColumn(name = "element_type_id", nullable = false)
+	private ElementType elementType;
+
+	@OneToMany(mappedBy = "element", cascade = CascadeType.ALL)
+	// @org.hibernate.annotations.Cascade(value = {
+	// org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	private List<Property> properties = new ArrayList<Property>();
+
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+	// @org.hibernate.annotations.Cascade(value = {
+	// org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	private List<ElementRefs> references = new ArrayList<ElementRefs>();

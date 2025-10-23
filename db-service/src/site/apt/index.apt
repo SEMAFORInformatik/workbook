@@ -1,0 +1,15 @@
+ ------
+ Welcome to Gendas!
+ ------
+ Ronald Tanner
+ ------
+ January 2011
+ ------
+
+Welcome to Gendas!
+
+    Gendas provides basic CRUD services for Java Beans 
+     using a relational database combined with a simple
+     revision management. It is based on Spring, Hibernate and
+     Ehcache.
+

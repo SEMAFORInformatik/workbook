@@ -1,0 +1,8 @@
+apiVersion: v2
+name: workbook-lib
+description: A library chart to deploy the intens db workbook
+
+type: library
+
+version: 0.4.0
+

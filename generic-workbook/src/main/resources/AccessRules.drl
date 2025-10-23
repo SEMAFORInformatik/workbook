@@ -1,0 +1,87 @@
+package ch.semafor.intens.ws
+
+import ch.semafor.intens.ws.model.Component
+import ch.semafor.intens.ws.model.ApprovalState
+import ch.semafor.intens.ws.model.User
+import ch.semafor.intens.ws.model.Variant
+import ch.semafor.gendas.model.Group
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import java.util.Date;
+
+rule "Attempt to modify component with status - Approved/Tested/Tendered/Obsolete"
+ // salience: Each rule has an integer salience attribute which defaults to zero
+ //     and can be negative or positive. Salience is a form of priority where rules
+ //     with higher salience values are given higher priority when ordered in the Activation queue.
+when
+  user:User()
+  comp : Component(modified==true && trivial==false &&
+                  (approvalState==ApprovalState.Approved ||
+                   approvalState==ApprovalState.Tested ||
+                   approvalState==ApprovalState.Tendered ||
+                   approvalState==ApprovalState.Obsolete));
+then
+  modify(comp) {
+    incRevision(),
+    setOwner(user.getUsername()),
+    setGroup(user.getActiveGroup().getName()),
+    setCreated(new Date()),
+    // TODO: use ApprovalState.Default (twice)
+    setNextApprovalState(ApprovalState.InPreparation),
+    setApprovalState(ApprovalState.InPreparation)};
+end
+
+rule "Attempt to modify variant with status - Approved/Tested/Tendered/Obsolete"
+when
+  user:User()
+  variant : Variant(modified==true && trivial==false &&
+                    (approvalState==ApprovalState.Approved ||
+                     approvalState==ApprovalState.Tested ||
+                     approvalState==ApprovalState.Tendered ||
+                     approvalState==ApprovalState.Obsolete)
+                   )
+then
+  modify(variant) {
+    incRevision(),
+    setOwner(user.getUsername()),
+    setGroup(user.getActiveGroup().getName()),
+    setCreated(new Date()),
+    // TODO: use ApprovalState.Default (twice)
+    setNextApprovalState(ApprovalState.InPreparation),
+    setApprovalState(ApprovalState.InPreparation)};
+end
+
+rule "Attempt to modify component by different user"
+when
+ group: Group()
+ user:User(groups not contains new Group("ADMIN") &&
+           groups not contains group)
+ comp:Component(owner!=user &&
+                !(modified==true && trivial==false &&
+                  (approvalState==ApprovalState.Approved ||
+                   approvalState==ApprovalState.Tested ||
+                   approvalState==ApprovalState.Tendered ||
+                   approvalState==ApprovalState.Obsolete
+                  )
+                 )
+               )
+then
+  comp.setValid(false);
+end
+
+rule "Attempt to modify variant by different user"
+when
+ group: Group()
+ user:User(groups not contains new Group("ADMIN") &&
+           groups not contains group)
+ variant:Variant(owner!=user &&
+                 !(modified==true &&
+                   (approvalState==ApprovalState.Approved ||
+                    approvalState==ApprovalState.Tested ||
+                    approvalState==ApprovalState.Tendered ||
+                    approvalState==ApprovalState.Obsolete
+                   )
+                  )
+                )
+then
+  variant.setValid(false);
+end

@@ -1,0 +1,30 @@
+
+Configuration
+
+* Create the file jdbc.properties and place in the root of your class path:
+
+---
+hibernate.show_sql=false
+hibernate.hbm2ddl.auto=create
+#
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+hibernate.connection.driver_class=com.mysql.jdbc.Driver
+hibernate.connection.url=jdbc:mysql://localhost/test
+hibernate.connection.username=root
+hibernate.connection.password=
+---
+
+ NOTE: the property <<<hibernate.hbm2ddl.auto>>> controls the  database schema creation, update or delete on start up and shutdown. 
+
+ Possible values are:
+
+ * <<validate>>: validate the schema, makes no changes to the database.
+
+ * <<update>>: update the schema.
+
+ * <<create>>: creates the schema, destroying previous data.If a file
+  named import.sql exists in the root of the class path
+  ('/import.sql') Hibernate will execute the SQL statements read from
+  the file after the creation of the database schema.
+
+ * <<create-drop>>: same as create but drops the schema when the entity manager is closed.

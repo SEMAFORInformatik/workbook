@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<logger name="org.springframework.beans" level="WARN" />
+	<logger name="org.hibernate" level="INFO" />
+	<logger name="org.hibernate.SQL" level="WARN" />
+	<logger name="org.hibernate.type" level="WARN" />
+	<logger name="org.springframework.binding" level="WARN" />
+	<logger name="org.springframework.jdbc" level="WARN" />
+	<logger name="org.springframework.transaction" level="WARN" />
+	<logger name="org.springframework.orm" level="WARN" />
+	<logger name="org.springframework.test" level="WARN" />
+	<logger name="org.springframework.test.context.transaction" level="WARN" />
+	<logger name="org.springframework.boot.autoconfigure.mongo.embedded" level="WARN" />
+
+	<logger name="ch.semafor.gendas" level="INFO" />
+	<logger name="ch.semafor.gendas.listener.mongo" level="DEBUG" />
+
+	<!-- 
+	<logger name="ch.semafor.gendas.model.PropertyValueList" level="DEBUG" />
+	<logger name="ch.semafor.gendas.model.Property" level="DEBUG" />
+	<logger name="ch.semafor.gendas.search" level="DEBUG" />
+	<logger name="ch.semafor.gendas.service.ElementCreator" level="DEBUG" />
+	<logger name="ch.semafor.gendas.model.Element" level="DEBUG" />
+	<logger name="ch.semafor.gendas.dao.ElementDaoImpl" level="WARN" />
+	<logger name="ch.semafor.gendas.dao.jpa" level="WARN" />
+	<logger name="ch.semafor.gendas.service.ElementCreator" level="DEBUG" />
+	<logger name="ch.semafor.gendas.service.ElementTypeCreator" level="WARN" />
+	<logger name="ch.semafor.gendas.service.ElementCreatorTest" level="WARN" />
+	<logger name="ch.semafor.gendas.model" level="DEBUG" />
+	<logger name="ch.semafor.gendas.dao.jpa.JpaConfigurationTest" level="DEBUG" />
+	 -->
+
+</configuration>

@@ -1,0 +1,44 @@
+ ------
+ Gendas
+ ------
+ Ronald Tanner
+ ------
+ January 2011
+ ------
+
+How it works
+
+  When saving a Java bean object, the bean is first transformed
+  into an element-property tree using the Java reflection API. 
+
+  For the following class fragment the property <<<x>>> is created if <<<T>>> is a primitive type
+  (e.g String, Enum, Double, double, Integer, int, Long, long,
+  XMLGregrorianCalendar, GregrorianCalendar, Boolean, boolean) or a List 
+  of it otherwise the element reference <<<x>>> is created.
+
+---
+  class C {
+
+    public T getX()
+
+  }
+---
+
+  This tree object is then compared
+  to the corresponding persisted tree, if one exists.
+  It is inserted as a new entity if the primary key property is null
+  otherwise the modified values are marked and the revision
+  counter is increased. 
+
+  On a retrieve operation the bean is restored
+  from the persisted element tree. 
+
+  The object id is mapped to the
+  element id if requested. The same applies to the version id which is
+  used for optimistic locking.
+
+  For more information see also the Wikipedia articles:
+
+  * {{{http://en.wikipedia.org/wiki/Generic_data_model}Generic Data Model}}.
+
+  *  {{{http://en.wikipedia.org/wiki/Entity-attribute-value_model} Entity-Attribute-Value Model}}

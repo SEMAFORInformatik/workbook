@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="create-index-type_index" author="scr">
+        <createIndex indexName="type_index" tableName="elements">
+            <column name="element_type_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-elements_group" author="scr">
+        <createIndex indexName="elements_group" tableName="elements">
+            <column name="ogroup" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-elements_owner" author="scr">
+        <createIndex indexName="elements_owner" tableName="elements">
+            <column name="owner" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-mod_ele" author="scr">
+        <createIndex indexName="mod_ele" tableName="modifications">
+            <column name="element_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-mod_time" author="scr">
+        <createIndex indexName="mod_time" tableName="modifications">
+            <column name="timestamp" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-ref_index" author="scr">
+        <createIndex indexName="ref_index" tableName="element_type_references">
+            <column name="references_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-type_id" author="scr">
+        <createIndex indexName="type_id" tableName="elementrefs">
+            <column name="element_type_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-parent_id" author="scr">
+        <createIndex indexName="parent_id" tableName="elementrefs">
+            <column name="parent_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-elementref_ref_index" author="scr">
+        <createIndex indexName="elementref_ref_index" tableName="elementrefs_elements">
+            <column name="ref_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-elementref_eid" author="scr">
+        <createIndex indexName="elementref_eid" tableName="elementrefs_elements">
+            <column name="element_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-elementref_list_refid" author="scr">
+        <createIndex indexName="elementref_list_refid" tableName="elementrefs_lists">
+            <column name="elementrefs_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-proptype_eid" author="scr">
+        <createIndex indexName="proptype_eid" tableName="element_types_property_types">
+            <column name="element_type_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_dev" author="scr">
+        <createIndex indexName="propval_dev" tableName="property_values">
+            <column name="decimal_value" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_dv" author="scr">
+        <createIndex indexName="propval_dv" tableName="property_values">
+            <column name="dvalue" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_iv" author="scr">
+        <createIndex indexName="propval_iv" tableName="property_values">
+            <column name="ivalue" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_lv" author="scr">
+        <createIndex indexName="propval_lv" tableName="property_values">
+            <column name="lvalue" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_sv" author="scr">
+        <createIndex indexName="propval_sv" tableName="property_values">
+            <column name="svalue" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-propval_dav" author="scr">
+        <createIndex indexName="propval_dav" tableName="property_values">
+            <column name="date_value" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-proptype_pid" author="scr">
+        <createIndex indexName="proptype_pid" tableName="element_types_property_types">
+            <column name="property_types_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-property_ele" author="scr">
+        <createIndex indexName="property_ele" tableName="properties">
+            <column name="element_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-property_val_list_prop" author="scr">
+        <createIndex indexName="property_val_list_prop" tableName="property_value_list">
+            <column name="property_id" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create-index-property_val_dims" author="scr">
+        <createIndex indexName="property_val_dims" tableName="propertyvaluelist_dimensions">
+            <column name="propertyvaluelist_id" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+
