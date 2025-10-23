@@ -23,6 +23,7 @@
   </scm>
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
+    <sonar.organization>semaforinformatik</sonar.organization>
   </properties>
   <repositories>
     <repository>
