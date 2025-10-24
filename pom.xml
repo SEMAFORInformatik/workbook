@@ -15,11 +15,11 @@
     <version>3.5.4</version>
   </parent>
   <scm>
-    <url>scm:git:https://github.com/SEMAFORInformatik/Workbook</url>
+    <url>scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook</url>
     <developerConnection>
-      scm:git:https://github.com/SEMAFORInformatik/Workbook
+      scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook
     </developerConnection>
-    <connection>scm:git:https://github.com/SEMAFORInformatik/Workbook</connection>
+    <connection>scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook</connection>
   </scm>
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
