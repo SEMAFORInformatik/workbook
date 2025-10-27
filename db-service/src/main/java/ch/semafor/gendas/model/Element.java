@@ -40,7 +40,7 @@ public class Element implements Serializable {
     private static final long serialVersionUID = 1L;
     @OneToMany(mappedBy = "element", cascade = {CascadeType.ALL})
     //CascadeType.MERGE, CascadeType.REMOVE}) //, cascade = CascadeType.ALL)
-    @org.hibernate.annotations.OrderBy(clause = "id asc")
+    @OrderBy("id asc")
     private final List<TableModification> modifications = new ArrayList<TableModification>();
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.ALL})
     //CascadeType.MERGE, CascadeType.REMOVE, CascadeType.PERSIST})
@@ -133,7 +133,7 @@ public class Element implements Serializable {
                     if (sub.containsKey(e)) {
                         sub.get(e).add(n.substring(s + 1));
                     } else {
-                        List<String> sl = new ArrayList<String>();
+                        List<String> sl = new ArrayList<>();
                         sl.add(n.substring(s + 1));
                         e.setRefName(refnam);
                         sub.put(e, sl);
@@ -143,7 +143,7 @@ public class Element implements Serializable {
                 if (sub.containsKey(this)) {
                     sub.get(this).add(n);
                 } else {
-                    List<String> sl = new ArrayList<String>();
+                    List<String> sl = new ArrayList<>();
                     sl.add(n);
                     sub.put(this, sl);
                 }
@@ -274,11 +274,7 @@ public class Element implements Serializable {
     // Get the new Revisionnumber and create a transient new modification
     // if it does not exist.
     public long getNewRevision() throws CoreException {
-        final TableModification hist = getNewModification();
-        if (hist == null) {
-            throw new CoreException("New modification not created");
-        }
-        return hist.getRevision();
+        return getNewModification().getRevision();
     }
 
     // getter and setter of ElementType
@@ -373,7 +369,7 @@ public class Element implements Serializable {
             return;
         }
         // element ref does not yet exist
-        if (ellist == null || ellist.size() == 0) {
+        if (ellist == null || ellist.isEmpty()) {
             // on 9/20/10 1:44 PM
             return;
         }
@@ -393,10 +389,8 @@ public class Element implements Serializable {
         r.addElement(el);
     }
 
-    public List<Element> getListOfElements(final String key)
-            throws CoreException {
+    public List<Element> getListOfElements(final String key) {
         final ElementRefs r = getElementRefs(key);
-        // 1:42 PM
         if (r == null) {
             return null;
         }
@@ -415,11 +409,7 @@ public class Element implements Serializable {
             return false;
         }
 		if (this.id != null) {
-			if (this.id.equals(e.id)) {
-				return true;
-			} else {
-				return false;
-			}
+            return this.id.equals(e.id);
 		}
         // TODO: check name (and rev?)
         //Property name = this.getProperty("name");
@@ -494,7 +484,7 @@ public class Element implements Serializable {
             if (plElem == null)
                 continue;
             if (plElem.getDims() != null && !plElem.getDims().isEmpty()) {
-                List<Object> l = new ArrayList<Object>();
+                List<Object> l = new ArrayList<>();
                 int last = plElem.getDims().size() - 1;
                 Integer d = 0;
                 setMatrix(plElem.getDims().get(last), d, plElem.getDims(), plElem.getValues().iterator(), l);
@@ -633,7 +623,7 @@ public class Element implements Serializable {
                 if (pl.getDims() != null && !pl.getDims().isEmpty()) {
                     logger.debug("Property {} is matrix or list dims {}",
                             p.getName(), pl.getDims().toString());
-                    List<Object> l = new ArrayList<Object>();
+                    List<Object> l = new ArrayList<>();
                     Integer d = 0;
                     int last = pl.getDims().size() - 1;
                     setMatrix(pl.getDims().get(last), d, pl.getDims(), pl.getValues().iterator(), l);
@@ -645,7 +635,7 @@ public class Element implements Serializable {
             }
             for (ElementRefs r : this.getReferences()) {
                 List<Element> el = r.getListOfElements(rev);
-                if (el == null || el.size() == 0)
+                if (el == null || el.isEmpty())
                     continue;
                 List<Map<String, ?>> lm = new ArrayList<Map<String, ?>>();
                 for (Element e : el) {
@@ -676,14 +666,14 @@ public class Element implements Serializable {
         if (d < dims.size() - 1) {
             for (int i = 0; i < dims.get(d); i++) {
                 logger.debug("new list {}", d);
-                List<Object> childlist = new ArrayList<Object>();
+                List<Object> childlist = new ArrayList<>();
                 setMatrix(n, d + 1, dims, valiter, childlist);
                 l.add(childlist);
             }
             return;
         }
         logger.debug("adding {}", n);
-        List<Object> dlist = new ArrayList<Object>();
+        List<Object> dlist = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             if (valiter.hasNext()) {
                 dlist.add(valiter.next().getValue());
