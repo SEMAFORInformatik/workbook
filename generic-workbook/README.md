@@ -29,7 +29,7 @@ The docker-compose.yaml file provided in the intens app starting template alread
 liquibase migrations from their default path:
 ```yaml
   workbook:
-    image: hub.semafor.ch/semafor/generic-workbook:1.1-SNAPSHOT
+    image: ghcr.io/semaforinformatik/workbook:3.4
     ...
     volumes:
       ...
@@ -45,7 +45,7 @@ Example:
 
 ```yaml
   workbook:
-    image: hub.semafor.ch/semafor/generic-workbook:1.1-SNAPSHOT
+    image: ghcr.io/semaforinformatik/workbook:3.4
     environment:
       - spring.liquibase.change-log=file:liquibase/db.changelog-master.xml
     volumes:

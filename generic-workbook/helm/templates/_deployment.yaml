@@ -98,7 +98,10 @@ spec:
             - name: spring.datasource.username
               value: "{{ .Values.datasource.username }}"
             - name: spring.datasource.password
-              value: "{{ .Values.datasource.password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workbook.fullname" . }}-password
+                  key: db-password
             {{- if .Values.oidc.enabled }}
             - name: spring.security.oauth2.resourceserver.jwt.issuer-uri
               value: "{{ .Values.oidc.issuer }}"
