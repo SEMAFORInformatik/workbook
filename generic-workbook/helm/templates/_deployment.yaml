@@ -172,8 +172,10 @@ spec:
               mountPath: /tmp/db
             {{- end }}
 
+      {{- if .Values.imageCredentials }}
       imagePullSecrets:
         - name: {{ include "workbook.fullname" . }}-registry
+      {{- end -}}
 
       volumes:
         - name: liquibase-files-multipart
