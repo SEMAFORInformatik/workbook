@@ -175,7 +175,7 @@ spec:
       {{- if .Values.imageCredentials }}
       imagePullSecrets:
         - name: {{ include "workbook.fullname" . }}-registry
-      {{- end -}}
+      {{- end }}
 
       volumes:
         - name: liquibase-files-multipart
