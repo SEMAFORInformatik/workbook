@@ -10,12 +10,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.4</version>
+    <version>3.5.7</version>
   </parent>
   <properties>
     <java.version>17</java.version>
     <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-    <drools.version>9.44.0.Final</drools.version>
+    <drools.version>10.1.0</drools.version>
     <activeProfile>jpa</activeProfile>
     <pmd.version>7.9.0</pmd.version>
     <maven.deploy.skip>false</maven.deploy.skip>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.8.6</version>
+      <version>2.8.14</version>
     </dependency>
     <dependency>
       <groupId>com.github.ulisesbocchio</groupId>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>2.13.0</version>
+      <version>2.14.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -69,12 +69,12 @@
     <dependency>
       <groupId>io.dropwizard.metrics</groupId>
       <artifactId>metrics-core</artifactId>
-      <version>4.2.28</version>
+      <version>4.2.37</version>
     </dependency>
     <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
-      <version>4.7.1</version>
+      <version>4.21.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -109,7 +109,7 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>5.4.0</version>
+      <version>5.6.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -129,7 +129,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.3.1-jre</version>
+      <version>33.5.0-jre</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>
@@ -138,7 +138,7 @@
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>
-      <version>9.44.0.Final</version>
+      <version>10.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
@@ -167,7 +167,7 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>7.0.0.202409031743-r</version>
+      <version>7.4.0.202509020913-r</version>
     </dependency>
   </dependencies>
   <distributionManagement>
