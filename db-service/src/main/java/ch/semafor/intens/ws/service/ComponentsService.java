@@ -225,7 +225,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param id Id of the component
    * @return The component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/{id}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -267,7 +266,6 @@ public class ComponentsService extends BaseServiceImpl {
    *
    * @return list of component types
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/types")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -307,7 +305,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param queryParams request parameters
    * @return list of components matching the query
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -324,7 +321,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param queryParams request parameters
    * @return list of components of requested type
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/type/{type}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -574,7 +570,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param compdata map with property values
    * @return saved component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @PutMapping(path = "/components")
   @Transactional
   @Operation(security = {
@@ -722,7 +717,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param compdata component data values
    * @return status code and map with modified properties (if any)
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @PutMapping(path = "/components/check")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -839,7 +833,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param queryParams query parameters
    * @return list of modifications
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/{id}/modifications")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -874,7 +867,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param mod_id modification id
    * @return modification
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/{id}/modifications/{mod_id}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -898,7 +890,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param queryParams query parameters
    * @return list of components in variant
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/components/variant/{id}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -1011,7 +1002,6 @@ public class ComponentsService extends BaseServiceImpl {
    * TODO: check if this method should be replaced by update.
    * @return component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @PutMapping(path = "/components/{id}/rename")
   @Transactional
   @Operation(security = {
@@ -1052,7 +1042,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param approval name
    * @return component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @PutMapping(path = "/components/{id}/approve")
   @Transactional
   @Operation(security = {
@@ -1103,7 +1092,6 @@ public class ComponentsService extends BaseServiceImpl {
    *
    * @param id component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @DeleteMapping(path = "/components/{id}")
   @Transactional
   @Operation(security = {
@@ -1211,7 +1199,6 @@ public class ComponentsService extends BaseServiceImpl {
    * @param id of component
    * @return component
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @PutMapping(path = "/components/{id}")
   @Transactional
   @Operation(security = {

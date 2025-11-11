@@ -75,7 +75,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param id id of the project
 	 * @return The project with the given id
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping(path = "/projects/{id}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -96,7 +95,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param queryParams query parameters
 	 * @return Projects matching the query
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping(path="/projects")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -210,7 +208,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param varcomp optional variant to search under for projects
 	 * @return List of found projects
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping(path = "/projects/component/{id}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -260,7 +257,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param data
 	 * @return the new project
 	 */
-	@Secured("ROLE_USER")
 	@Transactional
 	@PutMapping(path = "/projects", consumes = "application/json", produces = "application/json")
   @Operation(security = {
@@ -396,7 +392,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param data The project to check status of
 	 * @return
 	 */
-	@Secured("ROLE_USER")
 	@PutMapping(path = "/projects/check")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -575,7 +570,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param newname New name of project
 	 * @return The renamed project
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@Transactional
 	@PutMapping(path="/projects/{id}/rename")
   @Operation(security = {
@@ -628,7 +622,6 @@ public class ProjectsService extends BaseServiceImpl {
    * Delete a project
 	 * @param id Id of project to delete
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@Transactional
 	@DeleteMapping(path = "/projects/{id}")
   @Operation(security = {
@@ -756,7 +749,6 @@ public class ProjectsService extends BaseServiceImpl {
 	 * @param id Id of the project
 	 * @return The updated project
 	 */
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PutMapping(path = "/projects/{id}")
 	@Transactional
     @Operation(security = {

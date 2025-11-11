@@ -281,7 +281,6 @@ public class UserManagementService extends BaseServiceImpl {
    * @param password the new password
    * @return User object with the new password's hash
    */
-  @Secured("ROLE_USER")
   @PutMapping(path = "/users/password")
   @Transactional
   @Operation(security = {

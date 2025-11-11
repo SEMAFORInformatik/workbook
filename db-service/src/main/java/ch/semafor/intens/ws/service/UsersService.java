@@ -37,7 +37,6 @@ public class UsersService extends BaseServiceImpl {
    * @param username username of the user to get
    * @return The user
    */
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @GetMapping(path = "/users/{username}")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
@@ -93,7 +92,6 @@ public class UsersService extends BaseServiceImpl {
    * @param username Optional name of single user to get
    * @return A list of matched users
    */
-  @Secured("ROLE_USER")
   @GetMapping(path = "/userslist")
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")

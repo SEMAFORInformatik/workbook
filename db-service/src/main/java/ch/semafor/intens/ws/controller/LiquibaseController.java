@@ -62,7 +62,6 @@ public class LiquibaseController{
     }
   }
 
-  @Secured({"ROLE_USER", "ROLE_ADMIN" })
   @GetMapping(path = "/types")
   public Map<String, List<Map<String, Object>>> getTypesFlat() {
     return migrationService.createTypeMap();

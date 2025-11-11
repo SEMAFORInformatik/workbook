@@ -135,7 +135,6 @@ public class ShardController {
   }
 
   @PostMapping(path = "/export")
-  @Secured({ "ROLE_USER", "ROLE_ADMIN" })
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
   })
@@ -265,7 +264,6 @@ public class ShardController {
   }
 
   @PostMapping(path = "/import")
-  @Secured({ "ROLE_USER", "ROLE_ADMIN" })
   @Operation(security = {
       @SecurityRequirement(name = "bearer-key")
   })

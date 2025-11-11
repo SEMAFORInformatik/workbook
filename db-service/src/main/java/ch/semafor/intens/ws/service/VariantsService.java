@@ -56,7 +56,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param id Id of the variant
      * @return The variant
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping(path = "/variants/{id}")
     @Operation(security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
@@ -76,7 +75,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param queryParams The query to search with
      * @return Matched variants
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping(path = "/variants")
     @Operation(security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
@@ -176,7 +174,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param projectId Id of the project
      * @return Array of variants matched to the project
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping(path = "/variants/project/{id}")
     @Operation(security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
@@ -214,7 +211,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param varcomp
      * @return Variants matched to the component
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping(path = "/variants/component/{id}")
     @Operation(security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
@@ -238,7 +234,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param varcomp
      * @return All matched variants
      */
-    @Secured("ROLE_USER")
     @GetMapping(path = "/variants/project/{pid}/component/{cid}")
     @Operation(security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
@@ -393,7 +388,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param data Data of the variant
      * @return The saved variant
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping(path = "/variants")
     @Transactional
     @Operation(security = {
@@ -738,7 +732,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param data Data to check
      * @return status code and map with modified properties (if any)
      */
-    @Secured("ROLE_USER")
     @PutMapping(path = "/variants/check")
     @Operation(security = {
             @SecurityRequirement(name = "bearer-key")
@@ -945,7 +938,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param newname New name of the variant
      * @return The renamed variant
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping(path = "/variants/{id}/rename")
     @Transactional
     @Operation(security = {
@@ -1019,7 +1011,6 @@ public class VariantsService extends BaseServiceImpl {
      *
      * @param id Id of the variant to delete
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @DeleteMapping(path = "/variants/{id}")
     @Transactional
     @Operation(security = {
@@ -1107,7 +1098,6 @@ public class VariantsService extends BaseServiceImpl {
      * @param id   The id of the variant you want to update
      * @return The updated variant
      */
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @Transactional
     @PutMapping(path = "/variants/{id}")
     @Operation(security = {
