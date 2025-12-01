@@ -120,6 +120,11 @@ public class TokenController {
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername(
 				loginRequest.get("username"));
+		if (!bypass && !userDetails.isEnabled()) {
+			// don't tell the user their account is disabled
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+					"Invalid credentials");
+		}
 		if(!bypass && !passwordEncoder.matches((CharSequence)
 						loginRequest.get("password"),
 					userDetails.getPassword())){
