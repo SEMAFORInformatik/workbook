@@ -4,7 +4,7 @@
   <groupId>ch.semafor.intens</groupId>
   <artifactId>intens-db-service</artifactId>
   <packaging>jar</packaging>
-  <version>3.5</version>
+  <version>3.6-SNAPSHOT</version>
   <name>intens-db</name>
   <url>http://maven.apache.org</url>
   <parent>
@@ -304,8 +304,4 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <scm>
-    <tag>3.5</tag>
-  </scm>
 </project>
