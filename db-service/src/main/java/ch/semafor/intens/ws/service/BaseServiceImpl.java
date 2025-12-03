@@ -20,6 +20,7 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,6 +42,7 @@ import ch.semafor.gendas.search.SearchGt;
 import ch.semafor.gendas.search.SearchIn;
 import ch.semafor.gendas.service.ElementService;
 import ch.semafor.gendas.service.UserService;
+import ch.semafor.intens.ws.config.AppProperties;
 import ch.semafor.intens.ws.config.ComponentProperties;
 import ch.semafor.intens.ws.model.ApprovalState;
 import ch.semafor.intens.ws.model.BaseEntity;
@@ -60,6 +62,8 @@ public class BaseServiceImpl {
     ElementService elementService;
     @Autowired
     UserService userService;
+    @Autowired
+    AppProperties properties;
 
     @Autowired
     StatelessKieSession kieSession;
@@ -407,25 +411,46 @@ public class BaseServiceImpl {
         if( principalAttrs.containsKey("given_name")){
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            Owner currentUser = new Owner((String) principalAttrs.get("preferred_username"));
+            Owner currentUser = new Owner((String) principalAttrs.get(properties.getOauthUserField()));
             currentUser.setFirstName((String) principalAttrs.get("given_name"));
             currentUser.setLastName((String) principalAttrs.get("family_name"));
             currentUser.setRoles(authorities.stream().map(SimpleGrantedAuthority::getAuthority).map(Role::new).collect(Collectors.toSet()));
-            if(principalAttrs.containsKey("groups")) {
-                for (String name : (List<String>) principalAttrs.get("groups")) {
-                    logger.debug("Group {}", name);
-                    // must remove first char as it is "/"
-                    currentUser.addGroup(new Group(name.substring(1, name.length())));
+            if (properties.getUseOauthGroups()) {
+                if(principalAttrs.containsKey("groups")) {
+                    for (String name : (List<String>) principalAttrs.get("groups")) {
+                        logger.debug("Group {}", name);
+                        // must remove first char as it is "/"
+                        currentUser.addGroup(new Group(name.substring(1, name.length())));
+                    }
                 }
-            }
-            if(principalAttrs.containsKey("active_group")) {
-                String name = (String) principalAttrs.get("active_group");
-                currentUser.setActiveGroup(new Group(name.charAt(0) == '/' ? name.substring(1) : name));
-            }
-            else { // user must have an active group, take the first
-                if(!currentUser.getGroups().isEmpty()) {
-                    Group activeGroup = currentUser.getGroups().iterator().next();
-                    currentUser.setActiveGroup(activeGroup);
+                if(principalAttrs.containsKey("active_group")) {
+                    String name = (String) principalAttrs.get("active_group");
+                    currentUser.setActiveGroup(new Group(name.charAt(0) == '/' ? name.substring(1) : name));
+                }
+                else { // user must have an active group, take the first
+                    if(!currentUser.getGroups().isEmpty()) {
+                        Group activeGroup = currentUser.getGroups().iterator().next();
+                        currentUser.setActiveGroup(activeGroup);
+                    }
+                }
+            } else {
+                try {
+                    var dbOwner = userService.findOwnerByUsername(getUser());
+                    if (dbOwner.getGroups().isEmpty()) {
+                        var group = new Group(properties.getOauthDefaultGroup());
+                        currentUser.addGroup(group);
+                    } else {
+                        currentUser.setGroups(dbOwner.getGroups());
+                    }
+                    if (dbOwner.getActiveGroup() == null) {
+                        currentUser.setActiveGroup(currentUser.getGroups().iterator().next());
+                    } else {
+                        currentUser.setActiveGroup(dbOwner.getActiveGroup());
+                    }
+                } catch (UsernameNotFoundException e){
+                    var group = new Group(properties.getOauthDefaultGroup());
+                    currentUser.addGroup(group);
+                    currentUser.setActiveGroup(group);
                 }
             }
             currentUser.setPassword(new BCryptPasswordEncoder(11).encode(currentUser.getUsername()));

@@ -165,7 +165,7 @@ public class UsersService extends BaseServiceImpl {
     String currentPrincipalName = authentication.getName();
     try {
       Jwt principal = (Jwt) authentication.getPrincipal();
-      map.put("user_name", principal.getClaimAsString("preferred_username"));
+      map.put("user_name", principal.getClaimAsString(properties.getOauthUserField()));
       map.put("given_name", principal.getClaimAsString("given_name"));
       map.put("family_name", principal.getClaimAsString("family_name"));
       map.put("resource_access", principal.getClaimAsString("resource_access"));
@@ -208,7 +208,7 @@ public class UsersService extends BaseServiceImpl {
     map.put("scope", principal.getClaimAsString("scope"));
     map.put("claims", principal.getClaims().keySet().toString()); */
 
-    Owner currentUser = new Owner(principal.getClaimAsString("preferred_username"));
+    Owner currentUser = new Owner(principal.getClaimAsString(properties.getOauthUserField()));
     currentUser.setFirstName(principal.getClaimAsString("given_name"));
     currentUser.setLastName(principal.getClaimAsString("family_name"));
     for (String name : principal.getClaimAsStringList("groupMembership")) {

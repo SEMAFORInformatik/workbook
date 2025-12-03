@@ -52,7 +52,7 @@
     <dependency>
       <groupId>ch.semafor.intens</groupId>
       <artifactId>intens-db-service-dashboard</artifactId>
-      <version>1.3.2</version>
+      <version>1.3.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>

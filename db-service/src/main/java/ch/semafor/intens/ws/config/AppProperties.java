@@ -20,7 +20,28 @@ public class AppProperties {
   private String version;
   private Migration migration;
   private DashboardProperties dashboard;
+  private Boolean useOauthGroups = true;
+  private String oauthUserField = "preferred_username";
+  private String oauthDefaultGroup;
 
+  public String getOauthDefaultGroup() {
+    return oauthDefaultGroup;
+  }
+  public void setOauthDefaultGroup(String oauthDefaultGroup) {
+    this.oauthDefaultGroup = oauthDefaultGroup;
+  }
+  public String getOauthUserField() {
+    return oauthUserField;
+  }
+  public void setOauthUserField(String oauthUserField) {
+    this.oauthUserField = oauthUserField;
+  }
+  public Boolean getUseOauthGroups() {
+    return useOauthGroups;
+  }
+  public void setUseOauthGroups(Boolean useOauthGroups) {
+    this.useOauthGroups = useOauthGroups;
+  }
   public String getName() {
     return name;
   }
