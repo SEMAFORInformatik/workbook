@@ -408,7 +408,7 @@ public class BaseServiceImpl {
 
         // oauth2 mode
         Map<String, Object> principalAttrs = SecurityUtils.getPrincipalAttributes();
-        if( principalAttrs.containsKey(properties.getOauthUserField())){
+        if( principalAttrs.containsKey("given_name") || principalAttrs.containsKey(properties.getOauthUserField())){
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             Owner currentUser = new Owner((String) principalAttrs.get(properties.getOauthUserField()));
