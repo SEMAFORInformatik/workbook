@@ -69,8 +69,13 @@ public class OAuth2Security {
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
           jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
-                  Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
-            Collection<String> roles = realmAccess.get("roles");
+            Collection<String> roles;
+            if (jwt.hasClaim("realm_access")) {
+                Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
+                roles = realmAccess.get("roles");
+            } else {
+                roles = jwt.getClaim("roles");
+            }
             return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
