@@ -418,6 +418,7 @@ public class BaseServiceImpl {
               key = properties.getOauthUserField();
           }
         }
+        logger.debug("Principals: {}", principalAttrs.keySet().toString());
         if( principalAttrs.containsKey(key)){
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
