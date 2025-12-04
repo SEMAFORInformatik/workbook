@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -64,6 +65,9 @@ public class BaseServiceImpl {
     UserService userService;
     @Autowired
     AppProperties properties;
+    @Autowired
+    private Environment environment;
+
 
     @Autowired
     StatelessKieSession kieSession;
@@ -408,7 +412,13 @@ public class BaseServiceImpl {
 
         // oauth2 mode
         Map<String, Object> principalAttrs = SecurityUtils.getPrincipalAttributes();
-        if( principalAttrs.containsKey("given_name") || principalAttrs.containsKey(properties.getOauthUserField())){
+        String key = "given_name";
+        for (String profile : environment.getActiveProfiles()) {
+          if (profile.equals("oauth2")) {
+              key = properties.getOauthUserField();
+          }
+        }
+        if( principalAttrs.containsKey(key)){
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             Owner currentUser = new Owner((String) principalAttrs.get(properties.getOauthUserField()));
