@@ -422,6 +422,8 @@ public class BaseServiceImpl {
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             Owner currentUser = new Owner((String) principalAttrs.get(properties.getOauthUserField()));
+            logger.debug("Current user: {}", currentUser.getUsername());
+            logger.debug("Authorities: {}", authorities.toString());
             currentUser.setFirstName((String) principalAttrs.get("given_name"));
             currentUser.setLastName((String) principalAttrs.get("family_name"));
             currentUser.setRoles(authorities.stream().map(SimpleGrantedAuthority::getAuthority).map(Role::new).collect(Collectors.toSet()));
