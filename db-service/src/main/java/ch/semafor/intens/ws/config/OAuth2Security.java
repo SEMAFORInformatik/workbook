@@ -1,5 +1,6 @@
 package ch.semafor.intens.ws.config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,11 +70,11 @@ public class OAuth2Security {
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
           jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            Collection<String> roles;
+            Collection<String> roles = new ArrayList<String>();
             if (jwt.hasClaim("realm_access")) {
                 Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
                 roles = realmAccess.get("roles");
-            } else {
+            } else if (jwt.hasClaim("roles")){
                 roles = jwt.getClaim("roles");
             }
             return roles.stream()
