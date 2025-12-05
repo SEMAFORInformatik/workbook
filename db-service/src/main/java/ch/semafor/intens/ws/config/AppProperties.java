@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -115,6 +116,7 @@ public class AppProperties {
     private String dashboardUrl;
     private String shardMode;
     private boolean noAuth;
+    private List<String> oauthAdditionalClaims;
 
     public String getDbUrl() {
       return dbUrl;
@@ -157,6 +159,12 @@ public class AppProperties {
     }
     public void setNoAuth(boolean noAuth) {
       this.noAuth = noAuth;
+    }
+    public List<String> getOauthAdditionalClaims() {
+      return oauthAdditionalClaims;
+    }
+    public void setOauthAdditionalClaims(List<String> oauthAdditionalClaims) {
+      this.oauthAdditionalClaims = oauthAdditionalClaims;
     }
 
   }
