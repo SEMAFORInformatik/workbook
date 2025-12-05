@@ -115,9 +115,16 @@ public class AppProperties {
     private String clientId;
     private String dashboardUrl;
     private String shardMode;
+    private boolean useOauthGroups;
     private boolean noAuth;
     private List<String> oauthAdditionalClaims;
 
+    public boolean isUseOauthGroups() {
+      return useOauthGroups;
+    }
+    public void setUseOauthGroups(boolean useOauthGroups) {
+      this.useOauthGroups = useOauthGroups;
+    }
     public String getDbUrl() {
       return dbUrl;
     }

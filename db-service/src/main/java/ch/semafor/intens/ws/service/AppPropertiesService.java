@@ -31,6 +31,7 @@ public class AppPropertiesService {
     if (dashboard == null) {
       dashboard = new DashboardProperties();
     }
+    dashboard.setUseOauthGroups(appProperties.getUseOauthGroups());
     dashboard.setNoAuth(Arrays.asList(env.getActiveProfiles()).contains("auth-none"));
     dashboard.setDbUrl(contextPath);
     if (env.matchesProfiles("sharding")) {
