@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.semafor</groupId>
   <artifactId>workbook</artifactId>
-  <version>3.6</version>
+  <version>3.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>db-service</module>
@@ -20,7 +20,7 @@
       scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook
     </developerConnection>
     <connection>scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook</connection>
-    <tag>3.6</tag>
+    <tag>HEAD</tag>
   </scm>
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
