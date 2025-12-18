@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -24,9 +24,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.mongodb.MongoDBContainer;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,10 +38,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataMongoTest//(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
 public class ElementServiceMongoTest {
   @Container
-  static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4-focal");
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.2");
   @DynamicPropertySource
   static void setProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+    mongoDBContainer.start();
+    registry.add("spring.mongodb.host", mongoDBContainer::getHost);
+    registry.add("spring.mongodb.port", mongoDBContainer::getFirstMappedPort);
   }
 
     private static final Logger logger= LoggerFactory.getLogger(ElementServiceMongoTest.class);

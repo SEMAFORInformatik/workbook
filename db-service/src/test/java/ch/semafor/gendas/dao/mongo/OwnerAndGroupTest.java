@@ -3,14 +3,14 @@ package ch.semafor.gendas.dao.mongo;
 import ch.semafor.gendas.model.Group;
 import ch.semafor.gendas.model.Owner;
 import ch.semafor.gendas.model.Role;
-import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -103,7 +103,7 @@ public class OwnerAndGroupTest extends RepositoryMongoTest {
         assertEquals(owner2.getRoles().toArray()[0], owner.getRoles().toArray()[0]);
     }
 
-    @Ignore
+    @Disabled
     public void findAllGroups(@Autowired GroupRepositoryMongo groupRepositoryMongo) {
         List<Group> groups = groupRepositoryMongo.findAll();
         logger.info("Found {} groups: {}", groups.size(), groups);

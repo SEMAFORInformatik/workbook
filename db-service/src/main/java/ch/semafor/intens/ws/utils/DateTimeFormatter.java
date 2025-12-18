@@ -25,6 +25,7 @@ public class DateTimeFormatter {
   static org.joda.time.format.DateTimeFormatter fmt = ISODateTimeFormat.dateOptionalTimeParser();
 
   public static Date convert( String dstr ){
+    if (dstr.length() == 0) return null;
     return fmt.parseDateTime(dstr).toDate();
   }
 }

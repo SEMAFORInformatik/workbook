@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.easymock.EasyMock;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class jdSortTest<T> {
@@ -48,7 +48,7 @@ public class jdSortTest<T> {
 		}
 	}*/
 	
-	@Ignore // TODO: use Mockito
+	@Disabled // TODO: use Mockito
 	public void testComperatorCatchBlock(){
 		//test the fail if the values(order,ignorecase,key) arent setted
 		MapComparator mock_jds = EasyMock.createNiceMock(MapComparator.class);
@@ -58,7 +58,7 @@ public class jdSortTest<T> {
 		assertEquals(jdsort.compare("invalid", "invalid") ,          0);
 	}
 	
-	@Ignore // TODO: use Mockito
+	@Disabled // TODO: use Mockito
 	public void testComperatorWithNr(){
 		//dynamic nr-tests with both orders ASC and DESC
 		//reloadClazzes();

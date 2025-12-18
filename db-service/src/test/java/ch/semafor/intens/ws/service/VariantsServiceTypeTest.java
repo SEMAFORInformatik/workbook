@@ -20,18 +20,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 @ActiveProfiles("jpa")
 public class VariantsServiceTypeTest {
 
-	@MockBean
+	@MockitoBean
 	@Qualifier("elementServiceJpa")
 	ElementService persistenceService;
-	@MockBean
+	@MockitoBean
 	UserService userService;
 
 	@Autowired

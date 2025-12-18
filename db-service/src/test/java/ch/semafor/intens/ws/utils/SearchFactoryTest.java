@@ -9,19 +9,19 @@ import ch.semafor.gendas.search.SearchInterval;
 import ch.semafor.gendas.search.SearchInterval.Bounds;
 import ch.semafor.gendas.service.ElementService;
 import ch.semafor.gendas.service.UserService;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import java.lang.reflect.InvocationTargetException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 @ActiveProfiles("jpa")
 public class SearchFactoryTest {
 
-	@MockBean
+	@MockitoBean
 	ElementService elementService;
-	@MockBean
+	@MockitoBean
 	UserService userService;
 
 

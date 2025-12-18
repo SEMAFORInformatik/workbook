@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,10 +45,10 @@ public class ComponentsServiceTest {
 
   private static final Logger logger = LoggerFactory.getLogger(ComponentsServiceTest.class);
 
-	@MockBean
+	@MockitoBean
 	@Qualifier("elementServiceJpa")
 	ElementService elementService;
-	@MockBean
+	@MockitoBean
 	UserService userService;
 
   @Autowired

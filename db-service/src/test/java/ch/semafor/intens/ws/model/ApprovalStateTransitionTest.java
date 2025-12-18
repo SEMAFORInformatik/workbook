@@ -9,8 +9,8 @@ import ch.semafor.gendas.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 @ActiveProfiles("jpa")
@@ -19,9 +19,9 @@ public class ApprovalStateTransitionTest {
   @Autowired
   ApprovalStateTransition approvalStateTransition;
 
-	@MockBean
+	@MockitoBean
 	ElementService elementService;
-	@MockBean
+	@MockitoBean
 	UserService userService;
 
 	@Test
