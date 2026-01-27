@@ -17,11 +17,11 @@ spec:
         app: {{ include "workbook.fullname" . }}
       {{- if .Values.metrics.enabled }}
       annotations:
-        prometheus.io/path: /workbook/services/management/prometheus
+        prometheus.io/path: {{ .Values.basePath | default "/workbook"}}/services/management/prometheus
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
         k8s.grafana.com/scrape: "true"
-        k8s.grafana.com/metrics.path: /workbook/services/management/prometheus
+        k8s.grafana.com/metrics.path: {{ .Values.basePath | default "/workbook"}}/services/management/prometheus
         k8s.grafana.com/metrics.portNumber: "8080"
       {{- end }}
     spec:
@@ -148,7 +148,7 @@ spec:
 
           startupProbe:
             httpGet:
-              path: /workbook/services/management/health
+              path: {{ .Values.basePath | default "/workbook"}}/services/management/health
               port: workbook-port
             initialDelaySeconds: 10
             failureThreshold: 10
