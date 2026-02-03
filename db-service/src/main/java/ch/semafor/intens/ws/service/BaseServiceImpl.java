@@ -20,10 +20,10 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -420,14 +420,14 @@ public class BaseServiceImpl {
         }
         logger.debug("Principals: {}", principalAttrs.keySet().toString());
         if( principalAttrs.containsKey(key)){
-            Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)
+            Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             Owner currentUser = new Owner((String) principalAttrs.get(properties.getOauthUserField()));
             logger.debug("Current user: {}", currentUser.getUsername());
             logger.debug("Authorities: {}", authorities.toString());
             currentUser.setFirstName((String) principalAttrs.get("given_name"));
             currentUser.setLastName((String) principalAttrs.get("family_name"));
-            currentUser.setRoles(authorities.stream().map(SimpleGrantedAuthority::getAuthority).map(Role::new).collect(Collectors.toSet()));
+            currentUser.setRoles(authorities.stream().map(GrantedAuthority::getAuthority).map(Role::new).collect(Collectors.toSet()));
             if (properties.getUseOauthGroups()) {
                 if(principalAttrs.containsKey("groups")) {
                     for (String name : (List<String>) principalAttrs.get("groups")) {
