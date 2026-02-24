@@ -3,6 +3,7 @@ package ch.semafor.intens.ws.service;
 import ch.semafor.gendas.exceptions.UsernameNotFoundException;
 import ch.semafor.gendas.model.Group;
 import ch.semafor.gendas.model.Owner;
+import ch.semafor.intens.ws.config.AppProperties;
 import ch.semafor.intens.ws.model.User;
 import ch.semafor.intens.ws.model.swagger.ExGroup;
 import ch.semafor.intens.ws.model.swagger.ExUser;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,8 @@ import java.util.*;
 public class UsersService extends BaseServiceImpl {
 
   private static final Logger logger = LoggerFactory.getLogger(UsersService.class);
+  @Autowired
+  AppProperties properties;
 
   /**
    * Get one user by name
@@ -48,6 +52,9 @@ public class UsersService extends BaseServiceImpl {
       })
   })
   public Map<String, Object> findByUsername(@PathVariable("username") String username) {
+    if (properties.getRestrictUserList() && !hasAdminRole() && !username.equals(getUser())) {
+      throw new IntensWsException("Unauthorized", HttpStatus.FORBIDDEN);
+    }
     try {
       User details = new User(userService.findOwnerByUsername(username));
       if (details != null) {
@@ -106,7 +113,10 @@ public class UsersService extends BaseServiceImpl {
     String search = "";
     if (username != null && !username.isEmpty()) {
         search = username;
-      }
+    }
+    if (properties.getRestrictUserList() && !hasAdminRole()) {
+      search = getUser();
+    }
 
     List<Owner> ol = userService.findOwners(search);
     List<Owner> ul = new ArrayList<Owner>();

@@ -24,6 +24,7 @@ public class AppProperties {
   private Boolean useOauthGroups = true;
   private String oauthUserField = "preferred_username";
   private String oauthDefaultGroup;
+  private Boolean restrictUserList = false;
 
   public String getOauthDefaultGroup() {
     return oauthDefaultGroup;
@@ -42,6 +43,12 @@ public class AppProperties {
   }
   public void setUseOauthGroups(Boolean useOauthGroups) {
     this.useOauthGroups = useOauthGroups;
+  }
+  public Boolean getRestrictUserList() {
+    return restrictUserList;
+  }
+  public void setRestrictUserList(Boolean restrictUserList) {
+    this.restrictUserList = restrictUserList;
   }
   public String getName() {
     return name;
