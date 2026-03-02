@@ -42,14 +42,14 @@ public class ProjectsServiceTypeTest {
 	@Autowired 
 	ProjectsService projectService;
 	
-	private Map<String, Object> createTestDataMap() throws CoreException{
+	private Map<String, Object> createProjectTestData() throws CoreException{
 		Map<String, Object> m = new HashMap<String, Object>();
+        m.put("type", ProjectsService.PROJECT_TYPE);
 		m.put( "value", "simplevalue");
 		return m;
 	}
-	
-	
-	private List<Map<String, Object>> createTestDataList(){
+
+    private List<Map<String, Object>> createTestDataList(){
 		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
 		HashMap<String, Object> m = new HashMap<String, Object>();
 		m.put("name", "Project1");
@@ -57,10 +57,11 @@ public class ProjectsServiceTypeTest {
 		l.add(m);
 		return l;
 	}
+    
 	@Test
 	@WithMockUser(username="admin",roles={"USER","ADMIN"})
 	public void findById() throws CoreException, ElementCreationException {
-		Map<String, Object> expected = createTestDataMap();
+		Map<String, Object> expected = createProjectTestData();
 		Mockito.when(persistenceService.getElementMap(1L)).thenReturn(expected);
 		Map<String, Object> actual = 
 				projectService.findById(1L);
@@ -107,7 +108,7 @@ public class ProjectsServiceTypeTest {
 		Mockito.when(userService.findOwnerByUsername(username)).
 			thenReturn( new Owner(username));
 
-		Map<String, Object> expected = createTestDataMap();
+		Map<String, Object> expected = createProjectTestData();
 		Mockito.when(persistenceService.getElementMap(1L)).thenReturn(expected);
 
 		var element = new ElementType(VariantsService.VARIANT_TYPE);

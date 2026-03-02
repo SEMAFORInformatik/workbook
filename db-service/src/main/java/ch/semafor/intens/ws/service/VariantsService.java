@@ -66,7 +66,16 @@ public class VariantsService extends BaseServiceImpl {
             })
     public Map<String, Object> findById(@PathVariable("id") Long id) {
         logger.debug("find variant by id {}", id);
-        return elementService.getElementMap(id);
+        var m = elementService.getElementMap(id);
+        try {
+            if(m.get("type").equals(VariantsService.VARIANT_TYPE)) {
+                return m;
+            }
+        }
+        catch(NullPointerException ex){
+        }
+        throw new IntensWsException("no such variant id " + id,
+                HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -690,8 +699,8 @@ public class VariantsService extends BaseServiceImpl {
         return filter.filterVariants(varlist);
     }
 
-    private List<Map<String, Object>> findByNameAndRevAndProjId(String owner, String name, Integer rev,
-                                                                Long projectId) {
+    private List<Map<String, Object>> findByNameAndRevAndProjId(
+            String owner, String name, Integer rev, Long projectId) {
         if (projectId == null) {
             return new ArrayList<>();
         }
@@ -944,7 +953,8 @@ public class VariantsService extends BaseServiceImpl {
             @SecurityRequirement(name = "bearer-key")
     }
     )
-    public Map<String, Object> rename(@PathVariable("id") Long id, @RequestBody String newname, @RequestParam(required = false, defaultValue = "rename") String reason) {
+    public Map<String, Object> rename(@PathVariable("id") Long id, @RequestBody String newname,
+                                      @RequestParam(required = false, defaultValue = "rename") String reason) {
 
         Map<String, Object> v = findById(id);
         if (v == null) {
@@ -953,9 +963,8 @@ public class VariantsService extends BaseServiceImpl {
         Variant variant = baseEntityFactory.createVariant(v, null);
         String oldName = variant.getName();
 
-
         // strip leading and trailing quotation chars
-        newname = newname.substring(1, newname.length() - 2);
+        newname = newname.substring(1, newname.length() - 1);
         final Integer anyRev = null; // any revision instead of variant.getRevision()
         final String anyOwner = null;
 

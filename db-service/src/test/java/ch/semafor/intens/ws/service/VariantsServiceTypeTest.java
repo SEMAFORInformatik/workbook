@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ch.semafor.gendas.exceptions.CoreException;
 import ch.semafor.gendas.exceptions.ElementCreationException;
 import ch.semafor.gendas.model.Owner;
-import ch.semafor.gendas.search.SearchEq;
 import ch.semafor.gendas.service.ElementService;
 import ch.semafor.gendas.service.UserService;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class VariantsServiceTypeTest {
 			{
 				put("id", 1L);
 				put("name", "Variant1");
-				put("type", "Variant");
+				put("type", VariantsService.VARIANT_TYPE);
 				put("owner", "admin");
 				put("group", "admin");
 				put("projectId", 1);
@@ -60,7 +59,7 @@ public class VariantsServiceTypeTest {
 			{
 				put("id", 2L);
 				put("name", "Variant1");
-				put("type", "Variant");
+				put("type", VariantsService.VARIANT_TYPE);
 				put("owner", "admin");
 				put("group", "admin");
 				put("projectId", 1);
@@ -70,7 +69,7 @@ public class VariantsServiceTypeTest {
 			{
 				put("id", 3L);
 				put("name", "Variant2");
-				put("type", "Variant");
+				put("type", VariantsService.VARIANT_TYPE);
 				put("owner", "admin");
 				put("group", "admin");
 				put("projectId", 1);
@@ -82,12 +81,16 @@ public class VariantsServiceTypeTest {
 						Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.any(), Mockito.anyBoolean()))
 				.thenAnswer(args -> {
 					Map<String, Object> searchargs = args.getArgument(3);
-					var name = (SearchEq) searchargs.get("name");
-					return testVariants.stream().filter(e -> e.get("name").equals(name.toString())).collect(Collectors.toList());
+					return testVariants.stream().filter(e -> e.get("name").toString().equals(
+                            searchargs.get("name").toString())).collect(Collectors.toList());
 				});
 		Mockito
-				.when(persistenceService.getElementMap(1L))
-				.thenReturn(testVariants.get(0));
+				.when(persistenceService.getElementMap(Mockito.anyLong()))
+				.thenAnswer(arg0 -> {
+                    Long id = arg0.getArgument(0);
+                    return testVariants.stream().filter(
+                            e -> ((Long)e.get("id")).equals(id)).collect(Collectors.toList()).get(0);
+                });
 
 		Mockito
 				.when(persistenceService.save(Mockito.anyMap(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
@@ -96,7 +99,7 @@ public class VariantsServiceTypeTest {
 					return null;
 				});
 
-		variantService.rename(1L, "NewVariant", "rename");
+		variantService.rename(1L, "\"NewVariant\"", "rename");
 		assertEquals(2, saveCounter.value);
 
 	}

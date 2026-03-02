@@ -85,8 +85,13 @@ public class ProjectsService extends BaseServiceImpl {
       })
   })
 	public Map<String, Object> findById(@PathVariable("id") Long id) {
-		logger.debug("find element by id {}", id);
-		return elementService.getElementMap(id);
+		logger.debug("find project by id {}", id);
+		var m = elementService.getElementMap(id);
+        if(m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
+            return m;
+        }
+        throw new IntensWsException("No such project id " + id,
+                HttpStatus.NOT_FOUND);
 	}
 
 	/**
