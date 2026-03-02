@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.3</version>
   </parent>
   <scm>
     <url>scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook</url>
@@ -23,6 +23,7 @@
     <tag>HEAD</tag>
   </scm>
   <properties>
+    <java.version>17</java.version>
     <maven.deploy.skip>true</maven.deploy.skip>
     <sonar.organization>semaforinformatik</sonar.organization>
   </properties>

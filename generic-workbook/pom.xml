@@ -8,12 +8,11 @@
   <version>3.8-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.0</version>
+    <groupId>ch.semafor</groupId>
+    <artifactId>workbook</artifactId>
+    <version>3.8-SNAPSHOT</version>
   </parent>
   <properties>
-    <java.version>17</java.version>
     <gendas.profile>jpa</gendas.profile>
     <builddir>target</builddir>
     <image.name>ghcr.io/semaforinformatik/workbook:${project.version}</image.name>
