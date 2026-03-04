@@ -112,7 +112,20 @@ public class AccessFilter {
         logger.debug("denied (other group)");
         return false;
     }
-
+    public boolean accessAllowed(String type, String status, Map<String, Object> m) {
+        logger.debug("checking {} of {}", type, m.get("name"));
+        if (!user.equals(m.get("owner"))) {
+            Group group = new Group((String) m.get("group"));
+            String code = (String) m.get(status);
+            if (code != null) {
+                if (isMemberOf(group)) {
+                    return componentProperties.isTrue(type + "." + status + ".group." + code);
+                }
+                return componentProperties.isTrue(type + "." + status + ".others." + code);
+            }
+        }
+        return true;
+    }
     private List<Map<String, Object>> filter(String type, String status, List<Map<String, Object>> l) {
         if (!active) {
             logger.debug("AccessFilter is not active, do nothing");
@@ -127,24 +140,7 @@ public class AccessFilter {
         Iterator<Map<String, Object>> it = l.iterator();
         while (it.hasNext()) {
             Map<String, Object> m = it.next();
-            logger.debug("checking {} of {}", type, m.get("name"));
-            boolean allow = true;
-            if (!user.equals(m.get("owner"))) {
-                Group group = new Group((String) m.get("group"));
-                String code = (String) m.get(status);
-                if (code != null) {
-                    if (isMemberOf(group)) {
-                        allow = componentProperties.isTrue(type + "." + status + ".group." + code);
-                        logger.debug("User in group {} of {} {}: access allowed {} for status {}",
-                                     group.getName(), type, m.get("name"), allow, code);
-                    } else {
-                        allow = componentProperties.isTrue(type + "." + status + ".others." + code);
-                        logger.debug("User not in group {} of {} {}: access allowed {} for status {}",
-                                     group.getName(), type, m.get("name"), allow, code);
-                    }
-                }
-            }
-            if (!allow) it.remove();
+            if (!accessAllowed(type, status, m)) it.remove();
         }
         return l;
     }

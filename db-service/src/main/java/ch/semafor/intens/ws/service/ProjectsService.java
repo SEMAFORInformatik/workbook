@@ -87,8 +87,18 @@ public class ProjectsService extends BaseServiceImpl {
 	public Map<String, Object> findById(@PathVariable("id") Long id) {
 		logger.debug("find project by id {}", id);
 		var m = elementService.getElementMap(id);
-        if(m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
-            return m;
+        try {
+            AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
+            if (this.hasAdminRole() ||
+                    accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", m)) {
+                if (m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
+                    return m;
+                }
+            }
+            throw new IntensWsException("access denied project id " + id,
+                    HttpStatus.FORBIDDEN);
+        } catch(NullPointerException npe){
+            logger.warn("NPE ", npe);
         }
         throw new IntensWsException("No such project id " + id,
                 HttpStatus.NOT_FOUND);

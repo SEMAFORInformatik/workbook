@@ -62,6 +62,8 @@ public class ProjectsServiceTypeTest {
 	@WithMockUser(username="admin",roles={"USER","ADMIN"})
 	public void findById() throws CoreException, ElementCreationException {
 		Map<String, Object> expected = createProjectTestData();
+        Mockito.when(userService.findOwnerByUsername(Mockito.anyString())).thenReturn(
+                new Owner("admin"));
 		Mockito.when(persistenceService.getElementMap(1L)).thenReturn(expected);
 		Map<String, Object> actual = 
 				projectService.findById(1L);
