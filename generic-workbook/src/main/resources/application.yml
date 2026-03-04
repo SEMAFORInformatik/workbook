@@ -54,6 +54,7 @@ app:
   basedir: @project.basedir@
   name: @project.name@
   version: @project.version@
+  uniqueVariantName = false
   migration:
     masterfile: db.changelog-master.xml
     git:

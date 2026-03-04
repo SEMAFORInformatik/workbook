@@ -5,6 +5,7 @@ import ch.semafor.gendas.exceptions.UsernameNotFoundException;
 import ch.semafor.gendas.model.Modification;
 import ch.semafor.gendas.model.Owner;
 import ch.semafor.gendas.search.SearchEq;
+import ch.semafor.intens.ws.config.AppProperties;
 import ch.semafor.intens.ws.config.ComponentProperties;
 import ch.semafor.intens.ws.model.ApprovalState;
 import ch.semafor.intens.ws.model.Component;
@@ -40,6 +41,9 @@ import java.util.stream.Collectors;
 public class VariantsService extends BaseServiceImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(VariantsService.class);
+
+    @Autowired
+    AppProperties appProperties;
 
     @Autowired
     ComponentProperties componentProperties;
@@ -681,7 +685,7 @@ public class VariantsService extends BaseServiceImpl {
      * @param name Name to search
      * @return variants that are visible to the current user
      */
-    private List<Map<String, Object>> findByNameAndVisibility(String name) {
+    private List<Map<String, Object>> findByNameAndVisibleByUser(String name) {
         Map<String, Object> search = new HashMap<>();
         search.put("name", new SearchEq<>(name));
 
@@ -717,12 +721,9 @@ public class VariantsService extends BaseServiceImpl {
         if (rev != null) {
             pnames.add("rev");
         }
-        boolean latestRevision = true;
         List<Map<String, Object>> varlist = elementService.findByType(
                 VARIANT_TYPE, owner, pnames, search,
-                null, 0, 0, null, latestRevision);
-        if (rev == null)
-            return varlist;
+                null, 0, 0, null, false);
         if (logger.isDebugEnabled()) {
             logger.debug("Found variants:");
             for (Map<String, Object> m : varlist) {
@@ -731,6 +732,8 @@ public class VariantsService extends BaseServiceImpl {
                 }
             }
         }
+        if (rev == null)
+            return varlist;
         return varlist.stream()
                 .filter(m -> Objects.equals(m.get("rev"), rev)).collect(Collectors.toList());
     }
@@ -968,12 +971,14 @@ public class VariantsService extends BaseServiceImpl {
         final Integer anyRev = null; // any revision instead of variant.getRevision()
         final String anyOwner = null;
 
-        if (
-            !findByNameAndRevAndProjId(anyOwner,
-                newname, anyRev, variant.getProjId()
-            ).isEmpty() ||
-            !findByNameAndVisibility(newname).isEmpty()
-        ) {
+        boolean variants_exist = false;
+        if (appProperties.isUniqueVariantName()) {
+            variants_exist = !findByNameAndVisibleByUser(newname).isEmpty();
+        } else {
+            variants_exist = !findByNameAndRevAndProjId(anyOwner,
+                    newname, anyRev, variant.getProjId()).isEmpty();
+        }
+        if(variants_exist){
             logger.error("Name {} for variant already exists", newname);
             throw new IntensWsException("A variant with this name already exists.",
                     HttpStatus.BAD_REQUEST);

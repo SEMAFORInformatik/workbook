@@ -25,6 +25,7 @@ public class AppProperties {
   private String oauthUserField = "preferred_username";
   private String oauthDefaultGroup;
   private Boolean restrictUserList = false;
+  private Boolean uniqueVariantName = false; // for all projects
 
   public String getOauthDefaultGroup() {
     return oauthDefaultGroup;
@@ -62,6 +63,8 @@ public class AppProperties {
   public DashboardProperties getDashboard() {
     return dashboard;
   }
+  public Boolean isUniqueVariantName() {return uniqueVariantName;}
+  public void setUniqueVariantName(Boolean uniqueVariantName) {this.uniqueVariantName = uniqueVariantName;}
 
   public void setName(String name) {
     this.name = name;
