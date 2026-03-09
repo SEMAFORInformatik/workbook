@@ -74,7 +74,7 @@ public class JwtSecurity {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/services/rest/**", "/token").authenticated()
+                        .requestMatchers("/services/rest/**", "/services/liquibase/**", "/token").authenticated()
                         .anyRequest().permitAll()
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/login"))
