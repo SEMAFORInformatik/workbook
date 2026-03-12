@@ -73,7 +73,15 @@ public class VariantsService extends BaseServiceImpl {
         var m = elementService.getElementMap(id);
         try {
             if(m.get("type").equals(VariantsService.VARIANT_TYPE)) {
-                return m;
+                AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
+                var p = elementService.getElementMap(new Long((Integer) m.get("projectId")));
+                if (this.hasAdminRole() ||
+                        (accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", p) &&
+                                accessFilter.accessAllowed(VariantsService.VARIANT_TYPE, "approval", m))){
+                    return m;
+                }
+                throw new IntensWsException("access denied variant id " + id,
+                        HttpStatus.FORBIDDEN);
             }
         }
         catch(NullPointerException ex){

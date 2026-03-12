@@ -88,15 +88,15 @@ public class ProjectsService extends BaseServiceImpl {
 		logger.debug("find project by id {}", id);
 		var m = elementService.getElementMap(id);
         try {
-            AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
-            if (this.hasAdminRole() ||
-                    accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", m)) {
-                if (m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
+            if (m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
+                AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
+                if (this.hasAdminRole() ||
+                        accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", m)) {
                     return m;
                 }
+                throw new IntensWsException("access denied project id " + id,
+                        HttpStatus.FORBIDDEN);
             }
-            throw new IntensWsException("access denied project id " + id,
-                    HttpStatus.FORBIDDEN);
         } catch(NullPointerException npe){
             logger.warn("NPE ", npe);
         }
