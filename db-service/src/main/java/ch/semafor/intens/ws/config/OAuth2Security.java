@@ -36,7 +36,7 @@ public class OAuth2Security {
         // OpenID Connect
         // .cors(Customizer.withDefaults()
         http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/services/rest/**").authenticated()
+                        .requestMatchers("/services/rest/**", "/services/liquibase/**").authenticated()
                         // hasAuthority("SCOPE_profile")
                         /* Note Keycloak authorities:
                          "authorities": [
