@@ -13,7 +13,7 @@
     <version>3.9-SNAPSHOT</version>
   </parent>
   <properties>
-    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
     <drools.version>10.1.0</drools.version>
     <activeProfile>jpa</activeProfile>
     <pmd.version>7.9.0</pmd.version>
