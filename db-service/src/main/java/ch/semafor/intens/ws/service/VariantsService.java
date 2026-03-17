@@ -76,8 +76,8 @@ public class VariantsService extends BaseServiceImpl {
                 AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
                 var p = elementService.getElementMap(new Long((Integer) m.get("projectId")));
                 if (this.hasAdminRole() ||
-                        (accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", p) &&
-                                accessFilter.accessAllowed(VariantsService.VARIANT_TYPE, "approval", m))){
+                        (accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE.toLowerCase(), "status", p) &&
+                                accessFilter.accessAllowed(VariantsService.VARIANT_TYPE.toLowerCase(), "approval", m))){
                     return m;
                 }
                 throw new IntensWsException("access denied variant id " + id,

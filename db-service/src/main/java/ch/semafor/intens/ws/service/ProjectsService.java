@@ -91,7 +91,7 @@ public class ProjectsService extends BaseServiceImpl {
             if (m.get("type").equals(ProjectsService.PROJECT_TYPE)) {
                 AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
                 if (this.hasAdminRole() ||
-                        accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE, "status", m)) {
+                        accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE.toLowerCase(), "status", m)) {
                     return m;
                 }
                 throw new IntensWsException("access denied project id " + id,
