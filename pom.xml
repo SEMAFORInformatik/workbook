@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.semafor</groupId>
   <artifactId>workbook</artifactId>
-  <version>3.8.2</version>
+  <version>3.8.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>db-service</module>
@@ -20,7 +20,7 @@
       scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook
     </developerConnection>
     <connection>scm:git:ssh://git@github.com/SEMAFORInformatik/Workbook</connection>
-    <tag>3.8.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <properties>
     <java.version>17</java.version>
