@@ -74,7 +74,7 @@ public class VariantsService extends BaseServiceImpl {
         try {
             if(m.get("type").equals(VariantsService.VARIANT_TYPE)) {
                 AccessFilter accessFilter = new AccessFilter(getOwner(), componentProperties);
-                var p = elementService.getElementMap(new Long((Integer) m.get("projectId")));
+                var p = elementService.getElementMap(Long.parseLong(String.valueOf(m.get("projectId"))));
                 if (this.hasAdminRole() ||
                         (accessFilter.accessAllowed(ProjectsService.PROJECT_TYPE.toLowerCase(), "status", p) &&
                                 accessFilter.accessAllowed(VariantsService.VARIANT_TYPE.toLowerCase(), "approval", m))){
