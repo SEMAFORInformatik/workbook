@@ -42,6 +42,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,7 @@ import java.security.Principal;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -106,13 +108,43 @@ public class TokenController {
 				.issuedAt(now)
 				.expiresAt(now.plusSeconds(expiry))
 				.subject(username)
+				.claim("preferred_username", username)
+				.claim("name", userService.findOwnerByUsername(username).getFullName())
 				.claim("scope", scope)
 				.build();
 		// @formatter:on
 		return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 
-	@PostMapping(value = "/login")
+	class UserLoginRequest {
+		private String username;
+		private String password;
+		public String getUsername() {
+			return username;
+		}
+		public void setUsername(String username) {
+			this.username = username;
+		}
+		public String getPassword() {
+			return password;
+		}
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public Map<String, String> loginFormEncoded(@ModelAttribute UserLoginRequest params) throws AccessDeniedException {
+		var request = new HashMap<String, String>();
+		request.put("username", params.username);
+		request.put("password", params.password);
+		return Map.ofEntries(
+			Map.entry("access_token", login(request)),
+			Map.entry("token_type", "bearer")
+		);
+	}
+
+	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
 			public String login(@RequestBody Map<String, String> loginRequest)
 			throws AccessDeniedException {
 
