@@ -32,9 +32,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -72,14 +69,11 @@ public class JwtSecurity {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // @formatter:off JWT
         http
-                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/services/rest/**", "/services/liquibase/**", "/token").authenticated()
                         .anyRequest().permitAll()
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/login"))
-                //.cors(Customizer.withDefaults())
-                //.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.a)
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -108,18 +102,6 @@ public class JwtSecurity {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter());
         return converter;
-    }
-
-    /** NOTE: experimental cors config */
-    CorsConfigurationSource corsConfigurationSource() {
-        logger.info("CORS CONFIGURATION ************");
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        configuration.setExposedHeaders(Arrays.asList("header1", "header2"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 
     @Bean

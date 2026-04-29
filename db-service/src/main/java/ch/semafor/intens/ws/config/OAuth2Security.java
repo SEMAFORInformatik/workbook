@@ -34,7 +34,6 @@ public class OAuth2Security {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // OpenID Connect
-        // .cors(Customizer.withDefaults()
         http.authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/services/rest/**", "/services/liquibase/**").authenticated()
                         // hasAuthority("SCOPE_profile")
@@ -46,7 +45,6 @@ public class OAuth2Security {
                          ]
                          */
                         .anyRequest().permitAll()) // for monitoring access
-                //.cors(Customizer.withDefaults())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptions) -> exceptions
