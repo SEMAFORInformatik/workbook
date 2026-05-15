@@ -51,4 +51,36 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+  <groupId>org.cyclonedx</groupId>
+  <artifactId>cyclonedx-maven-plugin</artifactId>
+  <configuration>
+    <skipNotDeployed>false</skipNotDeployed>
+    <!-- Project metadata -->
+    <projectType>application</projectType>
+    <schemaVersion>1.6</schemaVersion>
+
+    <!-- Output options -->
+    <outputDirectory>${project.build.directory}</outputDirectory>
+    <outputName>sbom</outputName>
+    <outputFormat>all</outputFormat>
+
+    <!-- Scope inclusion -->
+    <includeCompileScope>true</includeCompileScope>
+    <includeProvidedScope>true</includeProvidedScope>
+    <includeRuntimeScope>true</includeRuntimeScope>
+    <includeSystemScope>true</includeSystemScope>
+    <includeTestScope>false</includeTestScope>
+
+    <!-- Enhanced metadata -->
+    <includeBomSerialNumber>true</includeBomSerialNumber>
+    <includeLicenseText>true</includeLicenseText>
+
+  </configuration>
+</plugin>      
+    </plugins>
+  </build>
 </project>
